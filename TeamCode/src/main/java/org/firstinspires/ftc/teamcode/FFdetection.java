@@ -56,9 +56,10 @@ import java.util.List;
 
 public class FFdetection  extends LinearOpMode {
 
-    private static final String TFOD_MODEL_ASSET = "tfod_default_graph.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "orange cube";                                        //yellow cube
-    private static final String LABEL_SECOND_ELEMENT = "white whiffle";                                     //white sphere
+    private static final String TFOD_MODEL_ASSET = "model_unquant.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "left";
+    private static final String LABEL_SECOND_ELEMENT = "middle";
+    private static final String LABEL_THIRD_ELEMENT = "right";
     
 
     /*
@@ -125,7 +126,7 @@ public class FFdetection  extends LinearOpMode {
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        telemetry.addData("#positon", updatedRecognitions.size());
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
@@ -173,7 +174,7 @@ public class FFdetection  extends LinearOpMode {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT, LABEL_THIRD_ELEMENT);
 
         System.out.println("drunkus");
     }

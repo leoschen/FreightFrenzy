@@ -15,10 +15,11 @@ public class HyperBot {
     public DcMotor  frontRight  = null;
     public DcMotor  backLeft    = null;
     public DcMotor  backRight   = null;
-//    public DcMotor  armMotor   = null;
-    public DcMotor  lEncoder    = null;
-    public DcMotor  rEncoder    = null;
-    public DcMotor  bEncoder    = null;
+    public DcMotor  armMotor    = null;
+//    public DcMotor  lEncoder    = null;
+//    public DcMotor  rEncoder    = null;
+//    public DcMotor  bEncoder    = null;
+    public DcMotor  sucker      = null;
     public int lEncoderDirection = 1;
     public int rEncoderDirection = 1;
     public int bEncoderDirection = -1;
@@ -60,11 +61,11 @@ public class HyperBot {
         frontRight = hwMap.get(DcMotor.class, "frontRight");
         backLeft = hwMap.get(DcMotor.class, "backLeft");
         backRight = hwMap.get(DcMotor.class, "backRight");
-        bEncoder = hwMap.get(DcMotor.class, "bEncoder");
-        lEncoder = hwMap.get(DcMotor.class, "lEncoder");
-        rEncoder = hwMap.get(DcMotor.class, "rEncoder");
-//        armMotor = hwMap.get(DcMotor.class, "armMotor");
-//        conveyor = hwMap.get(DcMotor.class, "conveyor");
+//        bEncoder = hwMap.get(DcMotor.class, "bEncoder");
+//        lEncoder = hwMap.get(DcMotor.class, "lEncoder");
+//        rEncoder = hwMap.get(DcMotor.class, "rEncoder");
+        armMotor = hwMap.get(DcMotor.class, "armMotor");
+        sucker = hwMap.get(DcMotor.class, "sucker");
 
         // Set all motors to run without encoder by default
         //encoder = fll degrees
@@ -72,11 +73,11 @@ public class HyperBot {
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        conveyor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        sucker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
