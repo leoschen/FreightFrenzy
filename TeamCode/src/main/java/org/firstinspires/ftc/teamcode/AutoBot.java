@@ -15,8 +15,8 @@ public class AutoBot extends LinearOpMode {
     HyperBot           robot = new HyperBot();
     ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_ROTATION_HD_HEX_MOTOR = 1120;
-    static final double     WHEEL_DIAMETER_INCHES  = 3.9 ;     // 75mm
+    static final double     COUNTS_PER_ROTATION_HD_HEX_MOTOR = 537.7;
+    static final double     WHEEL_DIAMETER_INCHES  = 3.78 ;     // 96mm
     static final double     COUNTS_PER_INCH = COUNTS_PER_ROTATION_HD_HEX_MOTOR / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     static final int FORWARD = 1;
@@ -38,11 +38,13 @@ public class AutoBot extends LinearOpMode {
         robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.sucker.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 //        robot.clawServo.setPosition(0);
     }
@@ -137,6 +139,8 @@ public class AutoBot extends LinearOpMode {
                     (runtime.seconds() < timeoutS) &&
                     (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy())) {
                 sleep(50);
+                telemetry.addData("position:  ","FL(%d), FLTarget(%d)", robot.frontLeft.getCurrentPosition(), frontLeftTarget);
+                telemetry.update();
             }
 //        }
 
@@ -187,37 +191,53 @@ public class AutoBot extends LinearOpMode {
 //        robot.clawServo.setPosition(1);
 //    }
 //
-//    public void closeClaw (HyperBot robot) {
-//        robot.clawServo.setPosition(0);
-//    }
-//    int target = 0;
-//    public void armup (HyperBot robot) {
-//        target = robot.armMotor.getCurrentPosition()+1600;
-//        robot.armMotor.setTargetPosition(target);
-//        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.armMotor.setPower(-1);
-//        while(robot.armMotor.isBusy()) {
-//            if(robot.armMotor.getCurrentPosition()>=target) {
-//                robot.armMotor.setPower(0);
-//                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                break;
-//            }
-//        }
-//    }
-//
-//    public void armdown (HyperBot robot) {
-//        target = robot.armMotor.getCurrentPosition()-1580;
-//        robot.armMotor.setTargetPosition(target);
-//        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.armMotor.setPower(1);
-//        while(robot.armMotor.isBusy()) {
-//            if(robot.armMotor.getCurrentPosition()<=target) {
-//                robot.armMotor.setPower(0);
-//                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                break;
-//            }
-//        }
-//    }
+    public void spin (HyperBot robot, double rotations, double timeoutS) {
+        //start spinning
+        int sTarget = robot.frontLeft.getCurrentPosition() + (int) (rotations * COUNTS_PER_INCH);
+        robot.sucker.setTargetPosition(sTarget);
+        robot.sucker.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        runtime.reset();
+        robot.sucker.setPower(1);
+
+        //wait until we reach the target
+        while (opModeIsActive() && runtime.seconds() < timeoutS && robot.sucker.isBusy()) {
+            sleep(50);
+        }
+
+        //stop motion
+        robot.sucker.setPower(0);
+        robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+
+    int target = 0;
+    public void armup (HyperBot robot) {
+        target = robot.armMotor.getCurrentPosition()+1200;
+        robot.armMotor.setTargetPosition(target);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotor.setPower(-1);
+        while(robot.armMotor.isBusy()) {
+            if(robot.armMotor.getCurrentPosition()>=target) {
+                robot.armMotor.setPower(0);
+                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                break;
+            }
+        }
+    }
+
+    public void armdown (HyperBot robot) {
+        target = robot.armMotor.getCurrentPosition()-1180;
+        robot.armMotor.setTargetPosition(target);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotor.setPower(1);
+        while(robot.armMotor.isBusy()) {
+            if(robot.armMotor.getCurrentPosition()<=target) {
+                robot.armMotor.setPower(0);
+                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                break;
+            }
+        }
+    }
 
 //    public void shoot (HyperBot robot) {
 //        robot.shooterLeft.setPower(0.75);
@@ -236,9 +256,7 @@ public class AutoBot extends LinearOpMode {
 //    public void stopCon (HyperBot robot) {
 //        robot.intakeArm.setPower(0);
 //    }
-//    public boolean isBlackStone(HyperBot robot) {
-//        return robot.colorSensor.red() < 60;
-//    }
+
 
 
 
