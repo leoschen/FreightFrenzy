@@ -16,6 +16,7 @@ public class HyperBot {
     public DcMotor  backLeft    = null;
     public DcMotor  backRight   = null;
     public DcMotor  armMotor    = null;
+    public DcMotor  spinner     = null;
 //    public DcMotor  lEncoder    = null;
 //    public DcMotor  rEncoder    = null;
 //    public DcMotor  bEncoder    = null;
@@ -66,6 +67,7 @@ public class HyperBot {
 //        rEncoder = hwMap.get(DcMotor.class, "rEncoder");
         armMotor = hwMap.get(DcMotor.class, "armMotor");
         sucker = hwMap.get(DcMotor.class, "sucker");
+        spinner = hwMap.get(DcMotor.class, "spinner");
 
         // Set all motors to run without encoder by default
         //encoder = fll degrees
@@ -78,6 +80,7 @@ public class HyperBot {
 //        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         sucker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        spinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
