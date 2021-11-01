@@ -15,6 +15,12 @@ public class FFdetect {
     private static final String LABEL_FIRST_ELEMENT = "left";
     private static final String LABEL_SECOND_ELEMENT = "middle";
     private static final String LABEL_THIRD_ELEMENT = "right";
+    private static final String[] LABELS = {
+            "Ball",
+            "Cube",
+            "Duck",
+            "Marker"
+    };
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -83,9 +89,24 @@ public class FFdetect {
     public String detectDuckPos() {
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
         if (updatedRecognitions == null || updatedRecognitions.size() == 0) {
-            return null;
+            if (updatedRecognitions != null) {
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                if (updatedRecognitions.size() == 0) {
+                    return "left";
+                }
+                for (Recognition recognition : updatedRecognitions) {
+                    if (recognition.getLabel().equals(LABELS[2])) {
+                        if ((recognition.getLeft() + recognition.getRight()) / 2 < 320) {
+                            return "middle";
+                        } else {
+                            return "right";
+                        }
+                    }
+                }
+            }
         }
-        return updatedRecognitions.get(0).getLabel();
+        return "left";
     }
 
     /**
