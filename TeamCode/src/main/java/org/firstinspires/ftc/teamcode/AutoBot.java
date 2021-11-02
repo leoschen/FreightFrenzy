@@ -244,7 +244,7 @@ public class AutoBot extends LinearOpMode {
         robot.spinner.setTargetPosition(target);
         robot.spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         runtime.reset();
-        robot.spinner.setPower(0.075);
+        robot.spinner.setPower(0.06);
         while(robot.spinner.isBusy() && runtime.seconds() < timeoutS) {
             if(robot.spinner.getCurrentPosition()<=target) {
                 robot.spinner.setPower(0);

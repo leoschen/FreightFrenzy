@@ -11,10 +11,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 public class FFdetect {
-    private static final String TFOD_MODEL_ASSET = "model_unquant.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "left";
-    private static final String LABEL_SECOND_ELEMENT = "middle";
-    private static final String LABEL_THIRD_ELEMENT = "right";
+    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+
     private static final String[] LABELS = {
             "Ball",
             "Cube",
@@ -88,20 +86,18 @@ public class FFdetect {
      */
     public String detectDuckPos() {
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions == null || updatedRecognitions.size() == 0) {
-            if (updatedRecognitions != null) {
-                // step through the list of recognitions and display boundary info.
-                int i = 0;
-                if (updatedRecognitions.size() == 0) {
-                    return "left";
-                }
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLabel().equals(LABELS[2])) {
-                        if ((recognition.getLeft() + recognition.getRight()) / 2 < 320) {
-                            return "middle";
-                        } else {
-                            return "right";
-                        }
+        if (updatedRecognitions != null) {
+            // step through the list of recognitions and display boundary info.
+            int i = 0;
+            if (updatedRecognitions.size() == 0) {
+                return "left";
+            }
+            for (Recognition recognition : updatedRecognitions) {
+                if (recognition.getLabel().equals(LABELS[2])) {
+                    if ((recognition.getLeft() + recognition.getRight()) / 2 < 320) {
+                        return "middle";
+                    } else {
+                        return "right";
                     }
                 }
             }
@@ -135,8 +131,10 @@ public class FFdetect {
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.8f;
+        tfodParameters.isModelTensorFlow2 = true;
+        tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT, LABEL_THIRD_ELEMENT);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
     }
 
 }

@@ -18,18 +18,20 @@ public class FFblueCarousel extends AutoBot{
     @Override
     public void runOpMode() {
         boolean warehouseParking = true;
-        waitForStart();
-        setup();
-
         FFdetect ob = new FFdetect(hardwareMap);
         ob.init();
         String label;
 
+//        label = ob.detectDuckPos();
+//        telemetry.addData("# Object Detected:  ", label);
+//        telemetry.update();
+        setup();
+        waitForStart();
+        //armup(robot);
+
         label = ob.detectDuckPos();
         telemetry.addData("# Object Detected:  ", label);
         telemetry.update();
-
-        //armup(robot);
 
         move(robot, 0.75, 21, 6, LEFT);
         sleep(130);
