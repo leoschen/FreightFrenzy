@@ -72,7 +72,7 @@ public class FFdetect {
             // (typically 1.78 or 16/9).
 
             // Uncomment the following line if you want to adjust the magnification and/or the aspect ratio of the input images.
-            tfod.setZoom(1.3, 2.3);
+            //tfod.setZoom(1.3, 2.3);
         }
     }
 
@@ -106,7 +106,7 @@ public class FFdetect {
                 }
             }
         }
-        return "left";
+        return "ok";
     }
 
     /**

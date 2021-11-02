@@ -35,10 +35,10 @@ public class FFblueCarousel extends AutoBot{
         sleep(130);
 
         if(label.contentEquals("left")) {
-            move(robot, 0.45, 17, 6, FORWARD);
+            move(robot, 0.45, 19, 6, FORWARD);
         } else if(label.contentEquals("middle")) {
-            move(robot, 0.45, 18, 6, FORWARD);
-        } else if(label.contentEquals("right")) {
+            move(robot, 0.45, 19, 6, FORWARD);
+        } else {
             move(robot, 0.45, 19, 6, FORWARD);
         }
 
