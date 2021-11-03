@@ -90,19 +90,19 @@ public class FFdetect {
             // step through the list of recognitions and display boundary info.
             int i = 0;
             if (updatedRecognitions.size() == 0) {
-                return "left";
+                return "right";
             }
             for (Recognition recognition : updatedRecognitions) {
                 if (recognition.getLabel().equals(LABELS[2])) {
                     if ((recognition.getLeft() + recognition.getRight()) / 2 < 320) {
-                        return "middle";
+                        return "left";
                     } else {
-                        return "right";
+                        return "middle";
                     }
                 }
             }
         }
-        return "ok";
+        return "right";
     }
 
     /**

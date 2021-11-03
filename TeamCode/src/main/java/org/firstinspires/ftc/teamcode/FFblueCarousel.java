@@ -27,39 +27,40 @@ public class FFblueCarousel extends AutoBot{
 //        telemetry.update();
         setup();
         waitForStart();
-        //armup(robot);
 
         label = ob.detectDuckPos();
         telemetry.addData("# Object Detected:  ", label);
         telemetry.update();
 
-        move(robot, 0.75, 21, 6, LEFT);
+
+        move(robot, 0.75, 22.3, 6, RIGHT);
         sleep(130);
 
+        move(robot, 0.45, 12.6, 6, BACK);
+        sleep(150);
+
         if(label.contentEquals("left")) {
-            move(robot, 0.45, 19, 6, FORWARD);
+            armup1(robot);
         } else if(label.contentEquals("middle")) {
-            move(robot, 0.45, 19, 6, FORWARD);
+            armup1(robot);
         } else {
-            move(robot, 0.45, 19, 6, FORWARD);
+            armup1(robot);
         }
 
-        sleep(150);
-
-        //armdown(robot);
-        //spin(robot, 20, 3);
+        spin(robot, 20, 3);
 
         sleep(150);
-        move(robot,0.5, 24.4, 6, TURNRIGHT);
+        armdown(robot, 2400);
+        move(robot,0.5, 18.4, 6, TURNLEFT);
         sleep(150);
-        move(robot, 0.7, 45, 6, FORWARD);
-        move(robot, 0.2, 4, 6, FORWARD);
+        move(robot, 0.7, 43, 6, FORWARD);
+        move(robot, 0.2, 8, 6, FORWARD);
         sleep(150);
         spinCarousel(robot, 3);
 
 
         if(warehouseParking){
-            move(robot, 0.5, 34.4, 6, TURNRIGHT);
+            move(robot, 0.5, 39, 6, TURNRIGHT);
             move(robot, 0.7, 80, 8, FORWARD);
         }else {
             move(robot, 0.5, 24.4, 6, TURNLEFT);
