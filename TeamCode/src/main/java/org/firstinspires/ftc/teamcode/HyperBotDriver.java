@@ -28,7 +28,7 @@ public class HyperBotDriver extends LinearOpMode {
     double frontRightPower  = 0;
     double backLeftPower    = 0;
     double backRightPower   = 0;
-    double switchBack       = -1;
+    double switchBack       = 1;
     int target              = 0;
 
     double spinnerPower     = 1;
