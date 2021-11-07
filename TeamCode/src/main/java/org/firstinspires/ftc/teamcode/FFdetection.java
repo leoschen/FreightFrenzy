@@ -56,9 +56,10 @@ import java.util.List;
 
 public class FFdetection  extends LinearOpMode {
 
-    private static final String TFOD_MODEL_ASSET = "tfod_default_graph.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "orange cube";                                        //yellow cube
-    private static final String LABEL_SECOND_ELEMENT = "white whiffle";                                     //white sphere
+    private static final String TFOD_MODEL_ASSET = "model_unquant.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "middle";                                        //yellow cube
+    private static final String LABEL_SECOND_ELEMENT = "right";
+    private static final String LABEL_THIRD_ELEMENT = "left";
     
 
     /*
