@@ -125,6 +125,7 @@ public class HyperBotDriver extends LinearOpMode {
             }
             clawOffset = Range.clip(clawOffset, 0, 1);
             robot.leftServo.setPosition(clawOffset);
+            robot.backServo.setPosition(clawOffset);
 //
 //            //arm for wobble grabber
 //
@@ -285,6 +286,7 @@ public class HyperBotDriver extends LinearOpMode {
                     frontLeftPower, frontRightPower, backLeftPower, backRightPower
 //                    , (double)robot.bEncoder.getCurrentPosition()*0.0134, (double)robot.lEncoder.getCurrentPosition()*0.0134, (double)robot.rEncoder.getCurrentPosition()*0.0134
             );
+            telemetry.addData("Encoders", "L:(%d), B: (%d)",robot.sucker.getCurrentPosition(),robot.spinner.getCurrentPosition());
 //            , , robot.rEncoder.getCurrentPosition()
 //            telemetry.addData("Servos", "Claw(%.2f), Linear:(%d), ",
 //                    clawOffset, robot.linearDrive.getCurrentPosition());

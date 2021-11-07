@@ -63,12 +63,10 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
      *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
      *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
      */
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+//    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String TFOD_MODEL_ASSET = "teamelement.tflite";
     private static final String[] LABELS = {
-            "Ball",
-            "Cube",
-            "Duck",
-            "Marker"
+            "cup"
     };
 
     /*
@@ -145,7 +143,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
                             i++;
-                            if (recognition.getLabel().equals(LABELS[2])) {
+                            if (recognition.getLabel().equals(LABELS[0])) {
                                 if ((recognition.getLeft() + recognition.getRight()) / 2 < 320) {
                                     telemetry.addData("position: ", "left");
                                 } else {

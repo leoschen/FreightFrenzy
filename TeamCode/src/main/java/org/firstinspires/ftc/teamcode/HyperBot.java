@@ -28,6 +28,7 @@ public class HyperBot {
 //    public DcMotor  linearDrive = null;
 //    public DcMotor    linearServo = null;
     public Servo    leftServo   = null;
+    public Servo    backServo   = null;
 //
 //    //intake
 ////    public RevRobotics40HdHexMotor intakeArmLeft = null;
@@ -122,6 +123,7 @@ public class HyperBot {
 //      //  linearServo  = hwMap.crservo.get("linearServo");
 ////        linearDrive = hwMap.get(DcMotor.class, "linearDrive");
         leftServo  = hwMap.get(Servo.class, "leftServo");
+        backServo  = hwMap.get(Servo.class, "backServo");
 ////        clawServo.setPosition(1);
 ////        intakePusher  = hwMap.get(Servo.class, "intakePusher");
 ////        intakePusher.setPosition(1);
