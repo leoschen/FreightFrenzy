@@ -28,14 +28,16 @@ public class HyperBotDriver extends LinearOpMode {
     double frontRightPower  = 0;
     double backLeftPower    = 0;
     double backRightPower   = 0;
-    double switchBack       = -1;
+    double switchBack       = 1;
     int target              = 0;
 
+    double spinnerPower     = 1;
+    double suckPower        = 0;
     double intakePower      = 0;
     double shootPower       = 0;
     double shooterPower     = 0.9;
     double intakeArmPower   = 0;
-    double armPower         = 0;
+    double armPower         = 1;
 
     double clawOffset = 1;
     double pusherOffset = 1;
@@ -63,6 +65,7 @@ public class HyperBotDriver extends LinearOpMode {
 //            turn  =  -gamepad1.right_stick_x;
 
 
+            robot.spinner.setPower(spinnerPower*gamepad2.right_stick_y*0.3);
             if(gamepad1.left_stick_x > -0.85 && gamepad1.left_stick_x < 0) {
                 sidewayRightX = 0.35 * gamepad1.left_stick_x;
             } else if(gamepad1.left_stick_x < 0.85 && gamepad1.left_stick_x > 0) {
@@ -115,13 +118,14 @@ public class HyperBotDriver extends LinearOpMode {
             robot.backRight.setPower(backRightPower);
 
 //            // the position 1 is when the claw is closed and 0 is open so to open the claw it subtracts
-//            if (gamepad2.dpad_up) {
-//                clawOffset += CLAW_SPEED;
-//            } else if (gamepad2.dpad_down) {
-//                clawOffset -= CLAW_SPEED;
-//            }
-//            clawOffset = Range.clip(clawOffset, 0, 1);
-//            robot.clawServo.setPosition(clawOffset);
+            if (gamepad2.dpad_up) {
+                clawOffset = 1;
+            } else if (gamepad2.dpad_down) {
+                clawOffset = 0;
+            }
+            clawOffset = Range.clip(clawOffset, 0, 1);
+            robot.leftServo.setPosition(clawOffset);
+            robot.backServo.setPosition(clawOffset);
 //
 //            //arm for wobble grabber
 //
@@ -236,15 +240,30 @@ public class HyperBotDriver extends LinearOpMode {
 
             //intake
 
-            intakePower = gamepad2.left_trigger;
-//            robot.intakeLeft.setPower(intakePower);
+            if (gamepad2.left_trigger != 0) {
+                suckPower = gamepad2.left_trigger;
+                robot.sucker.setPower(suckPower);
+            } else {
+                suckPower = 0 - gamepad2.right_trigger;
+            robot.sucker.setPower(suckPower);
+            }
 //            robot.intakeRight.setPower(intakePower);
 
-            intakePower = 0 - gamepad2.right_trigger * shooterPower;
-//            robot.intakeLeft.setPower(intakePower);
-//            robot.intakeRight.setPower(intakePower);
 
-            intakeArmPower = gamepad2.left_stick_y*0.75;
+//            robot.intakeRight.setPower(intakePower)
+        robot.armMotor.setPower(gamepad2.left_stick_y * armPower);
+
+
+
+//            intakePower = gamepad2.left_trigger;
+////            robot.intakeLeft.setPower(intakePower);
+////            robot.intakeRight.setPower(intakePower);
+//
+//            intakePower = 0 - gamepad2.right_trigger * shooterPower;
+////            robot.intakeLeft.setPower(intakePower);
+////            robot.intakeRight.setPower(intakePower);
+//
+//            intakeArmPower = gamepad2.left_stick_y*0.75;
 //            robot.intakeArm.setPower(intakeArmPower);
 //            robot.intakeArm.setPower(0.75);
 //            if (gamepad2.a) {
@@ -263,8 +282,11 @@ public class HyperBotDriver extends LinearOpMode {
 //            telemetry.addData("pusher position: ", pusherOffset);
 
             //debugging
-            telemetry.addData("Motors", "FL(%.2f), FR(%.2f), BL:(%.2f), BR:(%.2f),  bOdo:(%.2f), lOdo: (%.2f), rOdo(%.2f)",
-                    frontLeftPower, frontRightPower, backLeftPower, backRightPower, (double)robot.bEncoder.getCurrentPosition()*0.0134, (double)robot.lEncoder.getCurrentPosition()*0.0134, (double)robot.rEncoder.getCurrentPosition()*0.0134);
+            telemetry.addData("Motors", "FL(%.2f), FR(%.2f), BL:(%.2f), BR:(%.2f)",
+                    frontLeftPower, frontRightPower, backLeftPower, backRightPower
+//                    , (double)robot.bEncoder.getCurrentPosition()*0.0134, (double)robot.lEncoder.getCurrentPosition()*0.0134, (double)robot.rEncoder.getCurrentPosition()*0.0134
+            );
+            telemetry.addData("Encoders", "L:(%d), B: (%d)",robot.sucker.getCurrentPosition(),robot.spinner.getCurrentPosition());
 //            , , robot.rEncoder.getCurrentPosition()
 //            telemetry.addData("Servos", "Claw(%.2f), Linear:(%d), ",
 //                    clawOffset, robot.linearDrive.getCurrentPosition());

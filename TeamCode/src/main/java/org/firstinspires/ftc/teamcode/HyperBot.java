@@ -15,17 +15,20 @@ public class HyperBot {
     public DcMotor  frontRight  = null;
     public DcMotor  backLeft    = null;
     public DcMotor  backRight   = null;
-//    public DcMotor  armMotor   = null;
-    public DcMotor  lEncoder    = null;
-    public DcMotor  rEncoder    = null;
-    public DcMotor  bEncoder    = null;
+    public DcMotor  armMotor    = null;
+    public DcMotor  spinner     = null;
+//    public DcMotor  lEncoder    = null;
+//    public DcMotor  rEncoder    = null;
+//    public DcMotor  bEncoder    = null;
+    public DcMotor  sucker      = null;
     public int lEncoderDirection = 1;
     public int rEncoderDirection = 1;
     public int bEncoderDirection = -1;
 //    public DcMotor  conveyor   = null;
 //    public DcMotor  linearDrive = null;
 //    public DcMotor    linearServo = null;
-//    public Servo    clawServo   = null;
+    public Servo    leftServo   = null;
+    public Servo    backServo   = null;
 //
 //    //intake
 ////    public RevRobotics40HdHexMotor intakeArmLeft = null;
@@ -60,11 +63,12 @@ public class HyperBot {
         frontRight = hwMap.get(DcMotor.class, "frontRight");
         backLeft = hwMap.get(DcMotor.class, "backLeft");
         backRight = hwMap.get(DcMotor.class, "backRight");
-        bEncoder = hwMap.get(DcMotor.class, "bEncoder");
-        lEncoder = hwMap.get(DcMotor.class, "lEncoder");
-        rEncoder = hwMap.get(DcMotor.class, "rEncoder");
-//        armMotor = hwMap.get(DcMotor.class, "armMotor");
-//        conveyor = hwMap.get(DcMotor.class, "conveyor");
+//        bEncoder = hwMap.get(DcMotor.class, "bEncoder");
+//        lEncoder = hwMap.get(DcMotor.class, "lEncoder");
+//        rEncoder = hwMap.get(DcMotor.class, "rEncoder");
+        armMotor = hwMap.get(DcMotor.class, "armMotor");
+        sucker = hwMap.get(DcMotor.class, "sucker");
+        spinner = hwMap.get(DcMotor.class, "spinner");
 
         // Set all motors to run without encoder by default
         //encoder = fll degrees
@@ -72,11 +76,12 @@ public class HyperBot {
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        conveyor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        sucker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        spinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -117,7 +122,8 @@ public class HyperBot {
 //        // Define and initialize servos
 //      //  linearServo  = hwMap.crservo.get("linearServo");
 ////        linearDrive = hwMap.get(DcMotor.class, "linearDrive");
-//        clawServo  = hwMap.get(Servo.class, "clawServo");
+        leftServo  = hwMap.get(Servo.class, "leftServo");
+        backServo  = hwMap.get(Servo.class, "backServo");
 ////        clawServo.setPosition(1);
 ////        intakePusher  = hwMap.get(Servo.class, "intakePusher");
 ////        intakePusher.setPosition(1);
