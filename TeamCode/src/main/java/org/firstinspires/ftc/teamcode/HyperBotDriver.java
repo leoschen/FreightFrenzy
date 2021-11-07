@@ -119,9 +119,9 @@ public class HyperBotDriver extends LinearOpMode {
             robot.backRight.setPower(backRightPower);
 
 //            // the position 1 is when the claw is closed and 0 is open so to open the claw it subtracts
-            if (gamepad2.dpad_up) {
+            if (gamepad1.dpad_up) {
                 clawOffset = 1;
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad1.dpad_down) {
                 clawOffset = 0;
             }
             clawOffset = Range.clip(clawOffset, 0, 1);
