@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -119,6 +121,9 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         }
 
         /** Wait for the game to begin */
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(vuforia, 0);
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();

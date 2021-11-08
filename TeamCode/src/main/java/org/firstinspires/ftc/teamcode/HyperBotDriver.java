@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -49,7 +51,8 @@ public class HyperBotDriver extends LinearOpMode {
     public void runOpMode() {
         //robot config
         robot.init(hardwareMap);
-
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -120,9 +123,9 @@ public class HyperBotDriver extends LinearOpMode {
 
 //            // the position 1 is when the claw is closed and 0 is open so to open the claw it subtracts
             if (gamepad1.dpad_up) {
-                clawOffset = 1;
-            } else if (gamepad1.dpad_down) {
                 clawOffset = 0;
+            } else if (gamepad1.dpad_down) {
+                clawOffset = 1;
             }
             clawOffset = Range.clip(clawOffset, 0, 1);
             robot.leftServo.setPosition(clawOffset);
@@ -288,7 +291,8 @@ public class HyperBotDriver extends LinearOpMode {
                     frontLeftPower, frontRightPower, backLeftPower, backRightPower
 //                    , (double)robot.bEncoder.getCurrentPosition()*0.0134, (double)robot.lEncoder.getCurrentPosition()*0.0134, (double)robot.rEncoder.getCurrentPosition()*0.0134
             );
-            telemetry.addData("Encoders", "L:(%d), B: (%d)",robot.sucker.getCurrentPosition(),robot.spinner.getCurrentPosition());
+            telemetry.addData("Encoders", "L:(%d), B: (%d), R: (%d)",
+                    robot.sucker.getCurrentPosition(),robot.spinner.getCurrentPosition(),robot.rEncoder.getCurrentPosition());
 //            , , robot.rEncoder.getCurrentPosition()
 //            telemetry.addData("Servos", "Claw(%.2f), Linear:(%d), ",
 //                    clawOffset, robot.linearDrive.getCurrentPosition());
