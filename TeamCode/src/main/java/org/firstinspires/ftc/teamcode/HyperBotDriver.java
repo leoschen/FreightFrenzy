@@ -127,6 +127,7 @@ public class HyperBotDriver extends LinearOpMode {
             clawOffset = Range.clip(clawOffset, 0, 1);
             robot.leftServo.setPosition(clawOffset);
             robot.backServo.setPosition(clawOffset);
+            robot.rightServo.setPosition(1-clawOffset);
 //
 //            //arm for wobble grabber
 //
