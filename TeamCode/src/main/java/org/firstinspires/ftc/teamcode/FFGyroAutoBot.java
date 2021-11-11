@@ -40,6 +40,14 @@ public class FFGyroAutoBot extends LinearOpMode {
     Orientation             lastAngles = new Orientation();
     double                  globalAngle, correction;
 
+    int leftOdometry;
+    int rightOdometry;
+    int middleOdometry;
+
+    int left;
+    int right;
+    int middle;
+
     @Override
     public void runOpMode() {
         // do nothing here. All classes that extends AutoBot need to override this method
@@ -61,6 +69,129 @@ public class FFGyroAutoBot extends LinearOpMode {
         robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 //        robot.clawServo.setPosition(0);
+    }
+
+    public void moveWithOdo(HyperBot robot, double speed, double inches, int timeoutS, int direction) {
+        int frontLeftTarget = 0;
+        int frontRightTarget = 0;
+        int backLeftTarget = 0;
+        int backRightTarget = 0;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            if (direction == FORWARD) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            } else if (direction == BACK) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+            } else if (direction == RIGHT) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            } else if (direction == LEFT) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+            }
+
+            if (direction == TURNLEFT) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            } else if (direction == TURNRIGHT) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+            }
+
+
+            robot.frontLeft.setTargetPosition(frontLeftTarget);
+            robot.frontRight.setTargetPosition(frontRightTarget);
+            robot.backLeft.setTargetPosition(backLeftTarget);
+            robot.backRight.setTargetPosition(backRightTarget);
+
+            // Turn On RUN_TO_POSITION
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            correction = 0;
+            left = robot.sucker.getCurrentPosition();
+            right = robot.rEncoder.getCurrentPosition();
+            middle = robot.spinner.getCurrentPosition();
+
+            do {
+                if(direction == TURNRIGHT || direction == TURNLEFT) {
+                    correction = checkTurnOdo(direction);
+                } else {
+                    correction = checkOdometry();
+                }
+
+                if (direction == RIGHT) {
+                    robot.frontLeft.setPower(Math.abs(speed) - (correction * 0.6));//0.6
+                    robot.frontRight.setPower(Math.abs(speed) + (correction * 0.6));//0.6
+                    robot.backLeft.setPower(Math.abs(speed) - (correction * 0.6));//0.6
+                    robot.backRight.setPower(Math.abs(speed) + (correction * 0.6));//0.6
+                } else {
+                    robot.frontLeft.setPower(Math.abs(speed) + (correction * 0.6));//0.6
+                    robot.frontRight.setPower(Math.abs(speed) - (correction * 0.6));//0.6
+                    robot.backLeft.setPower(Math.abs(speed) + (correction * 0.6));//0.6
+                    robot.backRight.setPower(Math.abs(speed) - (correction * 0.6));//0.6
+                }
+
+                sleep(6);
+            } while(opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy()));
+        }
+    }
+
+    public double checkOdometry() {
+
+        leftOdometry = robot.sucker.getCurrentPosition() - left;
+        rightOdometry = robot.rEncoder.getCurrentPosition() - right;
+        middleOdometry = robot.spinner.getCurrentPosition() - middle;
+
+        correction = leftOdometry - rightOdometry;
+        if (middleOdometry > 0) {
+            correction += middleOdometry * 0.1;
+        } else if (middleOdometry < 0) {
+            correction -= middleOdometry * 0.1;
+        }
+
+        return correction;
+    }
+
+    public double checkTurnOdo(int direction) {
+
+        leftOdometry = robot.sucker.getCurrentPosition() - left;
+        rightOdometry = robot.rEncoder.getCurrentPosition() - right;
+        middleOdometry = robot.spinner.getCurrentPosition() - middle;
+        if (leftOdometry > rightOdometry) {
+
+            correction = leftOdometry + rightOdometry;
+
+        } else if (leftOdometry < rightOdometry) {
+            correction = leftOdometry + rightOdometry;
+        }
+
+        return correction;
     }
 
     public void move(HyperBot robot, double speed, double inches, int timeoutS, int direction) {

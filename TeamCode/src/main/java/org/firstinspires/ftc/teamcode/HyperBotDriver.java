@@ -110,10 +110,10 @@ public class HyperBotDriver extends LinearOpMode {
                 backLeftPower = Range.clip(forwardY - sidewayRightX + turn, -1.0, 1.0);
                 backRightPower = Range.clip(forwardY + sidewayRightX - turn, -1.0, 1.0);
             } else if (switchBack == -1) {
-                frontLeftPower = Range.clip(-forwardY - sidewayRightX + turn, -1.0, 1.0);
-                frontRightPower = Range.clip(-forwardY + sidewayRightX - turn, -1.0, 1.0);
-                backLeftPower = Range.clip(-forwardY + sidewayRightX + turn, -1.0, 1.0);
-                backRightPower = Range.clip(-forwardY - sidewayRightX - turn, -1.0, 1.0);
+                frontLeftPower = Range.clip(-forwardY - sidewayRightX - turn, -1.0, 1.0);
+                frontRightPower = Range.clip(-forwardY + sidewayRightX + turn, -1.0, 1.0);
+                backLeftPower = Range.clip(-forwardY + sidewayRightX - turn, -1.0, 1.0);
+                backRightPower = Range.clip(-forwardY - sidewayRightX + turn, -1.0, 1.0);
             }
 
             robot.frontLeft.setPower(frontLeftPower);
