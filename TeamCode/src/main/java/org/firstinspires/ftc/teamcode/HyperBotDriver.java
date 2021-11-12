@@ -42,7 +42,7 @@ public class HyperBotDriver extends LinearOpMode {
     double intakeArmPower   = 0;
     double armPower         = 1;
 
-    double clawOffset = 1;
+    double clawOffset = 0;
     double pusherOffset = 1;
     double armOffset = 1;
 
@@ -69,7 +69,7 @@ public class HyperBotDriver extends LinearOpMode {
 //            turn  =  -gamepad1.right_stick_x;
 
 
-            robot.spinner.setPower(spinnerPower*gamepad2.right_stick_y*0.3);
+            robot.spinner.setPower(spinnerPower*gamepad2.right_stick_y*0.2);
             if(gamepad1.left_stick_x > -0.85 && gamepad1.left_stick_x < 0) {
                 sidewayRightX = 0.35 * gamepad1.left_stick_x;
             } else if(gamepad1.left_stick_x < 0.85 && gamepad1.left_stick_x > 0) {
@@ -87,11 +87,11 @@ public class HyperBotDriver extends LinearOpMode {
             }
 
             if(gamepad1.right_stick_x > -0.85 && gamepad1.right_stick_x < 0) {
-                turn  =  0.35 * -gamepad1.right_stick_x;
+                turn  =  0.35 * gamepad1.right_stick_x;
             } else if(gamepad1.right_stick_x < 0.85 && gamepad1.right_stick_x > 0) {
-                turn  =  0.35 * -gamepad1.right_stick_x;
+                turn  =  0.35 * gamepad1.right_stick_x;
             } else {
-                turn  =  -gamepad1.right_stick_x;
+                turn  =  gamepad1.right_stick_x;
             }
 
 
@@ -287,8 +287,8 @@ public class HyperBotDriver extends LinearOpMode {
 //            telemetry.addData("pusher position: ", pusherOffset);
 
             //debugging
-            telemetry.addData("Motors", "FL(%.2f), FR(%.2f), BL:(%.2f), BR:(%.2f)",
-                    frontLeftPower, frontRightPower, backLeftPower, backRightPower
+            telemetry.addData("Motors", "FL(%.2f), FR(%.2f), BL:(%.2f), BR:(%.2f), SPNR:(%.2f)",
+                    frontLeftPower, frontRightPower, backLeftPower, backRightPower, robot.spinner.getPower()
 //                    , (double)robot.bEncoder.getCurrentPosition()*0.0134, (double)robot.lEncoder.getCurrentPosition()*0.0134, (double)robot.rEncoder.getCurrentPosition()*0.0134
             );
             telemetry.addData("Encoders", "L:(%d), B: (%d), R: (%d)",
