@@ -24,6 +24,8 @@ public class FFGyroAutoBot extends LinearOpMode {
     static final double COUNTS_PER_ROTATION_HD_HEX_MOTOR = 537.7;
     static final double WHEEL_DIAMETER_INCHES = 3.78;     // 96mm
     static final double COUNTS_PER_INCH = COUNTS_PER_ROTATION_HD_HEX_MOTOR / (WHEEL_DIAMETER_INCHES * 3.1415);
+//8192
+    static final double ODOMETER_COUNTS_PER_INCH = 1.37 / (8192 * 3.1415);
 
     static final int FORWARD = 1;
     static final int BACK = 2;
@@ -47,6 +49,12 @@ public class FFGyroAutoBot extends LinearOpMode {
     int left;
     int right;
     int middle;
+
+    int leftDistance;
+    int rightDistance;
+    int middleDistance;
+
+    int PIDDistance;
 
     @Override
     public void runOpMode() {
@@ -136,6 +144,9 @@ public class FFGyroAutoBot extends LinearOpMode {
             right = robot.rEncoder.getCurrentPosition();
             middle = robot.spinner.getCurrentPosition();
 
+            leftDistance = robot.sucker.getCurrentPosition() + (int)(inches * ODOMETER_COUNTS_PER_INCH);
+            rightDistance = robot.rEncoder.getCurrentPosition() + (int)(inches * ODOMETER_COUNTS_PER_INCH);
+
             do {
                 if(direction == TURNRIGHT || direction == TURNLEFT) {
                     correction = checkTurnOdo(direction);
@@ -143,12 +154,14 @@ public class FFGyroAutoBot extends LinearOpMode {
                     correction = checkOdometry();
                 }
 
-                if (direction == RIGHT) {
+                PID(robot.sucker.getCurrentPosition(), robot.rEncoder.getCurrentPosition(), left, right, inches, speed);
+
+                if (direction == RIGHT || direction == BACK) {
                     robot.frontLeft.setPower(Math.abs(speed) - (correction * 0.6));//0.6
                     robot.frontRight.setPower(Math.abs(speed) + (correction * 0.6));//0.6
                     robot.backLeft.setPower(Math.abs(speed) - (correction * 0.6));//0.6
                     robot.backRight.setPower(Math.abs(speed) + (correction * 0.6));//0.6
-                } else {
+                } else if (direction == LEFT || direction == FORWARD) {
                     robot.frontLeft.setPower(Math.abs(speed) + (correction * 0.6));//0.6
                     robot.frontRight.setPower(Math.abs(speed) - (correction * 0.6));//0.6
                     robot.backLeft.setPower(Math.abs(speed) + (correction * 0.6));//0.6
@@ -183,13 +196,7 @@ public class FFGyroAutoBot extends LinearOpMode {
         leftOdometry = robot.sucker.getCurrentPosition() - left;
         rightOdometry = robot.rEncoder.getCurrentPosition() - right;
         middleOdometry = robot.spinner.getCurrentPosition() - middle;
-        if (leftOdometry > rightOdometry) {
-
-            correction = leftOdometry + rightOdometry;
-
-        } else if (leftOdometry < rightOdometry) {
-            correction = leftOdometry + rightOdometry;
-        }
+        correction = leftOdometry + rightOdometry;
 
         return correction;
     }
@@ -271,12 +278,12 @@ public class FFGyroAutoBot extends LinearOpMode {
                 telemetry.update();
 
                 //move it in the right direction and add the correction adjustment to the speed
-                if (direction == RIGHT) {
+                if (direction == RIGHT || direction == BACK) {
                     robot.frontLeft.setPower(Math.abs(speed) - (correction * 0.6));//0.6
                     robot.frontRight.setPower(Math.abs(speed) + (correction * 0.6));//0.6
                     robot.backLeft.setPower(Math.abs(speed) - (correction * 0.6));//0.6
                     robot.backRight.setPower(Math.abs(speed) + (correction * 0.6));//0.6
-                } else {
+                } else if (direction == LEFT || direction == FORWARD) {
                     robot.frontLeft.setPower(Math.abs(speed) + (correction * 0.6));//0.6
                     robot.frontRight.setPower(Math.abs(speed) - (correction * 0.6));//0.6
                     robot.backLeft.setPower(Math.abs(speed) + (correction * 0.6));//0.6
@@ -642,6 +649,36 @@ public class FFGyroAutoBot extends LinearOpMode {
 
         offset = angles.firstAngle;
         if(offset >= 170) {offset = -offset + 360;}
+    }
+
+    //start       startingPos     PIDStart targetPos
+    //--|-------------|--------------|-------|
+    //  0             10             18     20
+    //          left/rightStart
+    //                |----------------------|inches = 10
+    //                               |-------|PIDDistance = 2
+    //left/rightStart + inches - PIDDistance = PIDStart
+
+
+    //  startingPos    PIDStart targetPos/start
+    //-----|--------------|-------|
+    //     -10           -2       0
+    //left/rightStart
+    //     |----------------------|inches = 10
+    //                    |-------|PIDDistance = 2
+    //left/rightStart + inches - PIDDistance = PIDStart
+
+    //startingPos + inches = targetPos
+
+    public double PID(int leftOdo, int rightOdo, int leftStart, int rightStart, double inches, double speed) {
+        int startPos = (leftStart + rightStart) / 2;
+        int pos = (leftOdo + rightOdo) / 2;
+        double newSpeed = speed;
+        if(pos > startPos + inches - PIDDistance) {
+            newSpeed = ((startPos + inches) - pos) * (1/PIDDistance) * speed;
+        }
+
+        return newSpeed;
     }
 
 
