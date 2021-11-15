@@ -286,6 +286,12 @@ public class AutoBot extends LinearOpMode {
         }
     }
 
+
+    public void lowerOdo(HyperBot robot) {
+        robot.leftServo.setPosition(1);
+        robot.rightServo.setPosition(0);
+        robot.backServo.setPosition(1);
+    }
 //    public void shoot (HyperBot robot) {
 //        robot.shooterLeft.setPower(0.75);
 //        robot.shooterRight.setPower(0.75);
