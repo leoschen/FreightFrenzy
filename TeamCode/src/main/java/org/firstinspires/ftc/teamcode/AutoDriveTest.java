@@ -22,7 +22,7 @@ public class AutoDriveTest extends FFGyroAutoBot{
         lowerOdo(robot);
         waitForStart();
 
-        moveWithOdo(robot, 0.1,20, 5, FORWARD);
+        moveWithOdo(robot, 1,40, 5, FORWARD);
 //        sleep(5000);
 //        moveWithOdo(robot, 0.1,20, 5, BACK);
 //        sleep(5000);
