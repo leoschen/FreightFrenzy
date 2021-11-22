@@ -127,6 +127,11 @@ public class HyperBotDriver extends LinearOpMode {
             } else if (gamepad1.dpad_down) {
                 clawOffset = 1;
             }
+            if (gamepad2.dpad_up) {
+                robot.clawServo.setPosition(0);
+            } else if (gamepad2.dpad_down) {
+                robot.clawServo.setPosition(1);
+            }
             clawOffset = Range.clip(clawOffset, 0, 1);
             robot.leftServo.setPosition(clawOffset);
             robot.backServo.setPosition(clawOffset);
