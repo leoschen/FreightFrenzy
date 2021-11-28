@@ -26,7 +26,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 3.78;     // 96mm
     static final double COUNTS_PER_INCH = COUNTS_PER_ROTATION_HD_HEX_MOTOR / (WHEEL_DIAMETER_INCHES * 3.1415);
 //8192
-    static final double ODOMETER_COUNTS_PER_INCH = 1.37 / (8192 * 3.1415);
+    static final double ODOMETER_COUNTS_PER_INCH = (1.37795 * 3.1415926) / 8192;
 
     static final int FORWARD = 1;
     static final int BACK = 2;
@@ -55,7 +55,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     int rightDistance;
     int middleDistance;
 
-    int PIDDistance = 20;
+    static final double PIDDistance = 7;
     double PIDSpeed = 1;
 
     @Override
@@ -172,6 +172,7 @@ public class FFGyroAutoBot extends LinearOpMode {
             telemetry.update();
             runtime.reset();
             do {
+                correction = 0;
                 if(direction == TURNRIGHT || direction == TURNLEFT) {
                     correction = checkTurnOdo(direction);
                     System.out.println("\n\n\n\ncheck turning\n\n\n\n");
@@ -193,34 +194,27 @@ public class FFGyroAutoBot extends LinearOpMode {
 
                     PIDSpeed = PID(robot.sucker.getCurrentPosition(), -robot.rEncoder.getCurrentPosition(), left, right, inches, speed);
 
-                    robot.frontLeft.setPower(Math.abs(PIDSpeed) - (correction * 0.006));//0.6
-                    robot.frontRight.setPower(Math.abs(PIDSpeed) + (correction * 0.006));//0.6
-                    robot.backLeft.setPower(Math.abs(PIDSpeed) - (correction * 0.006));//0.6
-                    robot.backRight.setPower(Math.abs(PIDSpeed) + (correction * 0.006));//0.6
-                    System.out.println("front left power : " + (Math.abs(PIDSpeed) - (correction * 0.006)) + "\ncorrection : " + correction);
-                    System.out.println("front right power : " + (Math.abs(PIDSpeed) + (correction * 0.006)) + "\ncorrection : " + correction);
+                    robot.frontLeft.setPower(Math.abs(PIDSpeed) - (correction * 0.4));//0.6
+                    robot.frontRight.setPower(Math.abs(PIDSpeed) + (correction * 0.4));//0.6
+                    robot.backLeft.setPower(Math.abs(PIDSpeed) - (correction * 0.4));//0.6
+                    robot.backRight.setPower(Math.abs(PIDSpeed) + (correction * 0.4));//0.6
+                    System.out.println("front left power : " + (Math.abs(PIDSpeed) - (correction * 0.4)) + "\ncorrection : " + correction);
+                    System.out.println("front right power : " + (Math.abs(PIDSpeed) + (correction * 0.4)) + "\ncorrection : " + correction);
                     System.out.println("PID speed : " + PIDSpeed + "\nspeed : " + speed);
                 } else if (direction == LEFT || direction == FORWARD) {
                     System.out.println("\n\n\n\nset speed\n\n\n\n");
 
                     PIDSpeed = PID(robot.sucker.getCurrentPosition(), -robot.rEncoder.getCurrentPosition(), left, right, inches, speed);
 
-                    robot.frontLeft.setPower(Math.abs(PIDSpeed) + (correction * 0.006));//0.6
-                    robot.frontRight.setPower(Math.abs(PIDSpeed) - (correction * 0.006));//0.6
-                    robot.backLeft.setPower(Math.abs(PIDSpeed) + (correction * 0.006));//0.6
-                    robot.backRight.setPower(Math.abs(PIDSpeed) - (correction * 0.006));//0.6
-                    System.out.println("front left power : " + (Math.abs(PIDSpeed) + (correction * 0.006)) + "\ncorrection : " + correction);
-                    System.out.println("front right power : " + (Math.abs(PIDSpeed) - (correction * 0.006)) + "\ncorrection : " + correction);
+                    robot.frontLeft.setPower(Math.abs(PIDSpeed) + (correction * 0.4));//0.6
+                    robot.frontRight.setPower(Math.abs(PIDSpeed) - (correction * 0.4));//0.6
+                    robot.backLeft.setPower(Math.abs(PIDSpeed) + (correction * 0.4));//0.6
+                    robot.backRight.setPower(Math.abs(PIDSpeed) - (correction * 0.4));//0.6
+                    System.out.println("front left power : " + (Math.abs(PIDSpeed) + (correction * 0.4)) + "\ncorrection : " + correction);
+                    System.out.println("front right power : " + (Math.abs(PIDSpeed) - (correction * 0.4)) + "\ncorrection : " + correction);
                     System.out.println("PID speed : " + PIDSpeed + "\nspeed : " + speed);
 
                 }
-
-
-
-                System.out.println("front left busy: " + robot.frontLeft.isBusy() +
-                        "\nfront right busy: " + robot.frontRight.isBusy() +
-                        "\nback left busy: " + robot.backLeft.isBusy() +
-                        "\nback right busy: " + robot.backRight.isBusy());
 
                 System.out.println("timeout seconds : " + runtime.seconds());
 
@@ -229,6 +223,12 @@ public class FFGyroAutoBot extends LinearOpMode {
                     (runtime.seconds() < timeoutS) &&
                     (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy()));
             System.out.println("\n\n\n\nstop\n\n\n\n");
+
+            robot.frontLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.backRight.setPower(0);
+
             robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -237,20 +237,26 @@ public class FFGyroAutoBot extends LinearOpMode {
     }
 
     public double checkOdometry() {
-        System.out.println("\n\n\n\ncheck current position\n\n\n\n\n");
+        System.out.println("\n\n\n\ncheck current position\n\n\n\n----------------------------------------------");
         leftOdometry = robot.sucker.getCurrentPosition() - left;
         rightOdometry = -robot.rEncoder.getCurrentPosition() - right;
         middleOdometry = robot.spinner.getCurrentPosition() - middle;
 
-        correction = leftOdometry - rightOdometry;
-        System.out.println("\n\n\n\nfind correction\n\n\n\n\n");
+        System.out.println("left" + leftOdometry * ODOMETER_COUNTS_PER_INCH + "\nright" + rightOdometry * ODOMETER_COUNTS_PER_INCH + "\nback" + middleOdometry * ODOMETER_COUNTS_PER_INCH);
+        double correct = 0;
+        correct = (rightOdometry * ODOMETER_COUNTS_PER_INCH) - (leftOdometry * ODOMETER_COUNTS_PER_INCH);
+        System.out.println("\n\n\n\nfind correction\n\n\n\n");
         if (middleOdometry > 0) {
-            correction -= middleOdometry * 0.1;
+            System.out.println("greater" + correct);
+            correct = correct + (middleOdometry * ODOMETER_COUNTS_PER_INCH);
+            System.out.println(correct);
         } else if (middleOdometry < 0) {
-            correction += middleOdometry * 0.1;
+            System.out.println("fewer" + correct);
+            correct = correct - (middleOdometry * ODOMETER_COUNTS_PER_INCH);
+            System.out.println(correct);
         }
-        System.out.println("middleOdometry : " + middleOdometry + "correction : " + correction);
-        return correction;
+        System.out.println("middleOdometry : " + middleOdometry * ODOMETER_COUNTS_PER_INCH + "correction : " + correct + "\n--------------------------------------");
+        return correct;
     }
 
     public double checkTurnOdo(int direction) {
@@ -258,7 +264,7 @@ public class FFGyroAutoBot extends LinearOpMode {
         leftOdometry = robot.sucker.getCurrentPosition() - left;
         rightOdometry = -robot.rEncoder.getCurrentPosition() - right;
         middleOdometry = robot.spinner.getCurrentPosition() - middle;
-        correction = leftOdometry + rightOdometry;
+        correction = (leftOdometry * ODOMETER_COUNTS_PER_INCH) + (rightOdometry * ODOMETER_COUNTS_PER_INCH);
 
         return correction;
     }
@@ -733,8 +739,10 @@ public class FFGyroAutoBot extends LinearOpMode {
     //startingPos + inches = targetPos
 
     public double PID(int leftOdo, int rightOdo, int leftStart, int rightStart, double inches, double speed) {
-        int startPos = (leftStart + rightStart) / 2;
-        int pos = (leftOdo + rightOdo) / 2;
+        double startPos = (leftStart + rightStart) / 2;
+        double pos = (leftOdo + rightOdo) / 2;
+        startPos = startPos * ODOMETER_COUNTS_PER_INCH;
+        pos = pos * ODOMETER_COUNTS_PER_INCH;
         double newSpeed = speed;
         if(pos > startPos + inches - PIDDistance) {
             newSpeed = ((startPos + inches) - pos) * (1/PIDDistance) * speed;
@@ -743,7 +751,13 @@ public class FFGyroAutoBot extends LinearOpMode {
 //        if ((startPos + inches) - pos < 0){
 //            newSpeed = 0;
 //        }
-        System.out.println("newSpeed : " + newSpeed + "\nstartPos : " + startPos + "\nPosition" + pos + "\nspeed" + speed + "\nleft odometer : " + leftOdo + "\nnew right odometer : " + rightOdo);
+//        System.out.println("newSpeed : " + newSpeed + "\nstartPos : " + startPos + "\nPosition" + pos + "\nspeed" + speed + "\nleft odometer : " + leftOdo * ODOMETER_COUNTS_PER_INCH + "\nright odometer : " + rightOdo * ODOMETER_COUNTS_PER_INCH + "\nPIDistance : " + PIDDistance);
+//        System.out.println("\nconvert start : " + startPos);
+//        System.out.println("\nadd inches : " + String.valueOf(startPos + inches));
+//        System.out.println("\nconvert pos : " + pos);
+//        System.out.println("\n(1/PIDDistance) : " + 1/PIDDistance);
+//        System.out.println("\n(1/PIDDistance) * speed : " + (1/PIDDistance) * speed);
+
 
         return newSpeed;
     }
@@ -813,13 +827,13 @@ public class FFGyroAutoBot extends LinearOpMode {
     }
 
 
-    public void armdown(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() + 1180;
+    public void armdown (HyperBot robot, int distance) {
+        target = robot.armMotor.getCurrentPosition()+distance;
         robot.armMotor.setTargetPosition(target);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(1);
-        while (robot.armMotor.isBusy()) {
-            if (robot.armMotor.getCurrentPosition() <= target) {
+        robot.armMotor.setPower(-1);
+        while(robot.armMotor.isBusy()) {
+            if(robot.armMotor.getCurrentPosition()>=target) {
                 robot.armMotor.setPower(0);
                 robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
