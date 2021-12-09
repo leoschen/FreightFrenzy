@@ -40,18 +40,22 @@ public class AutoDriveTest extends FFGyroAutoBot{
         telemetry.addData("# Object Detected:  ", label);
         telemetry.update();
 
-        moveWithOdo(robot, 0.75, 12, 6, BACK);
+        moveWithOdo(robot, 0.75, 12.2, 6, BACK);
         sleep(150);
 
-        moveWithOdo(robot, 0.75, 21.8, 6, RIGHT);
+        moveWithOdo(robot, 0.75, 21.6, 6, RIGHT);
         sleep(130);
 
 //        if(label.contentEquals("left")) {
-        armup1(robot);
-        spinUp(robot, 3, 3);
+//        armup1(robot);
+//        spinUp(robot, 1.5, 3);
 //        } else if(label.contentEquals("middle")) {
-//            armup1(robot);
-//            spin(robot, 20, 3);
+
+            moveWithOdo(robot, 0.75, 0.7, 6, BACK);
+            sleep(150);
+
+            armup1(robot);
+            spin(robot, 1.5, 2);
 //        } else {
 //            armup1(robot);
 //        }
@@ -60,19 +64,19 @@ public class AutoDriveTest extends FFGyroAutoBot{
 
         sleep(150);
         armdown(robot, 1900);
-        moveWithOdo(robot,0.1, 6.5, 6, TURNLEFT);
+        moveWithOdo(robot,0.3, 6.25, 6, TURNLEFT);
         sleep(150);
         moveWithOdo(robot, 0.7, 43.5, 6, FORWARD);
         moveWithOdo(robot, 0.2, 8, 6, FORWARD);
         sleep(150);
-        spinCarousel(robot, 3);
+        spinCarouselTime(robot, 3);
 
 
         if(warehouseParking){
             moveWithOdo(robot, 1, 3.5, 6, TURNRIGHT);
             moveWithOdo(robot, 0.7, 40, 8, FORWARD);
         }else {
-            moveWithOdo(robot, 0.5, 6, 10, TURNLEFT);
+            moveWithOdo(robot, 0.5, 8, 10, TURNLEFT);
             sleep(150);
 //            raiseOdo(robot);
 //            sleep(150);

@@ -857,7 +857,7 @@ public class FFGyroAutoBot extends LinearOpMode {
         robot.sucker.setTargetPosition(-sTarget);
         robot.sucker.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         runtime.reset();
-        robot.sucker.setPower(-0.7);
+        robot.sucker.setPower(0.7);
 
         //wait until we reach the target
         while (opModeIsActive() && runtime.seconds() < timeoutS && robot.sucker.isBusy()) {
@@ -875,7 +875,7 @@ public class FFGyroAutoBot extends LinearOpMode {
         robot.sucker.setTargetPosition(-sTarget);
         robot.sucker.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         runtime.reset();
-        robot.sucker.setPower(0.7);
+        robot.sucker.setPower(-0.7);
 
         //wait until we reach the target
         while (opModeIsActive() && runtime.seconds() < timeoutS && robot.sucker.isBusy()) {
@@ -945,6 +945,14 @@ public class FFGyroAutoBot extends LinearOpMode {
                 break;
             }
         }
+    }
+
+
+    public void spinCarouselTime(HyperBot robot, double timeoutS) {
+        runtime.reset();
+        robot.spinner.setPower(0.05);
+        sleep(2000);
+        robot.spinner.setPower(0);
     }
 
     public void spinCarousel(HyperBot robot, double timeoutS) {
