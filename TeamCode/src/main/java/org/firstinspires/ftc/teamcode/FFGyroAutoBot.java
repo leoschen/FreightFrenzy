@@ -127,88 +127,88 @@ public class FFGyroAutoBot extends LinearOpMode {
                 backRightTarget = robot.backRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
             }
 
-//            if (direction == TURNLEFT) {
-//                // Determine new target position, and pass to motor controller
-//                frontLeftTarget = robot.frontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-//                frontRightTarget = robot.frontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-//                backLeftTarget = robot.backLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-//                backRightTarget = robot.backRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-//            } else if (direction == TURNRIGHT) {
-//                // Determine new target position, and pass to motor controller
-//                frontLeftTarget = robot.frontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-//                frontRightTarget = robot.frontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-//                backLeftTarget = robot.backLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-//                backRightTarget = robot.backRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-//            }
+            if (direction == TURNLEFT) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            } else if (direction == TURNRIGHT) {
+                // Determine new target position, and pass to motor controller
+                frontLeftTarget = robot.frontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                frontRightTarget = robot.frontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+                backLeftTarget = robot.backLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                backRightTarget = robot.backRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+            }
 
             if (direction == TURNLEFT || direction == TURNRIGHT) {
-                robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                leftDistance = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-                rightDistance = -robot.rEncoder.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-                double starting = 0;
-                if (direction == TURNLEFT) {
-                    starting = rightDistance;
-                } else if (direction == TURNRIGHT) {
-                    starting = leftDistance;
-                }
-                double startAngle = leftDistance - rightDistance;
-                correction = checkTurnOdo(direction, starting);
-
-                if (direction == TURNLEFT) {
-                    while(rightDistance + startAngle < starting + inches) {
-                        leftDistance = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-                        rightDistance = -robot.rEncoder.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-                        correction = 0;
-                        robot.frontLeft.setPower(-speed - correction * 0.04);
-                        robot.frontRight.setPower(speed - correction * 0.04);
-                        robot.backLeft.setPower(-speed - correction * 0.04);
-                        robot.backRight.setPower(speed - correction * 0.04);
-//                        correction = checkTurnOdo(direction, starting);
-                        sleep(50);
-                        telemetry.addData("position:  ", "FL(%d), right distance(%2f), starting(%2f)", robot.frontLeft.getCurrentPosition(), rightDistance, startAngle);
-                        telemetry.update();
-                    }
-                } else if (direction == TURNRIGHT) {
-                    while(leftDistance + startAngle < starting + inches) {
-                        leftDistance = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-                        rightDistance = -robot.rEncoder.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-                        correction = 0;
-                        robot.frontLeft.setPower(speed - correction * 0.04);
-                        robot.frontRight.setPower(-speed - correction * 0.04);
-                        robot.backLeft.setPower(speed - correction * 0.04);
-                        robot.backRight.setPower(-speed - correction * 0.04);
-//                        correction = checkTurnOdo(direction, starting);
-                        sleep(50);
-                        telemetry.addData("position:  ", "FL(%d), FLTarget(%d)", robot.frontLeft.getCurrentPosition(), frontLeftTarget);
-                        telemetry.update();
-                }
-
-
-
-//                robot.frontLeft.setTargetPosition(frontLeftTarget);
-//                robot.frontRight.setTargetPosition(frontRightTarget);
-//                robot.backLeft.setTargetPosition(backLeftTarget);
-//                robot.backRight.setTargetPosition(backRightTarget);
+//                robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                robot.rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                leftDistance = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
+//                rightDistance = -robot.rEncoder.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
+//                double starting = 0;
+//                if (direction == TURNLEFT) {
+//                    starting = rightDistance;
+//                } else if (direction == TURNRIGHT) {
+//                    starting = leftDistance;
+//                }
+//                double startAngle = leftDistance - rightDistance;
+//                correction = checkTurnOdo(direction, starting);
 //
-//                // Turn On RUN_TO_POSITION
-//                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//                // reset the timeout time and start motion.
-//                runtime.reset();
-//                robot.frontLeft.setPower(Math.abs(speed));
-//                robot.frontRight.setPower(Math.abs(speed));
-//                robot.backLeft.setPower(Math.abs(speed));
-//                robot.backRight.setPower(Math.abs(speed));
-//                while (opModeIsActive() &&
-//                        (runtime.seconds() < timeoutS) &&
-//                        (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy())) {
-//                    sleep(50);
-//                    telemetry.addData("position:  ", "FL(%d), FLTarget(%d)", robot.frontLeft.getCurrentPosition(), frontLeftTarget);
-//                    telemetry.update();
+//                if (direction == TURNLEFT) {
+//                    while(rightDistance + startAngle < starting + inches) {
+//                        leftDistance = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
+//                        rightDistance = -robot.rEncoder.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
+//                        correction = 0;
+//                        robot.frontLeft.setPower(-speed - correction * 0.04);
+//                        robot.frontRight.setPower(speed - correction * 0.04);
+//                        robot.backLeft.setPower(-speed - correction * 0.04);
+//                        robot.backRight.setPower(speed - correction * 0.04);
+////                        correction = checkTurnOdo(direction, starting);
+//                        sleep(50);
+//                        telemetry.addData("position:  ", "FL(%d), right distance(%2f), starting(%2f)", robot.frontLeft.getCurrentPosition(), rightDistance, startAngle);
+//                        telemetry.update();
+//                    }
+//                } else if (direction == TURNRIGHT) {
+//                    while(leftDistance + startAngle < starting + inches) {
+//                        leftDistance = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
+//                        rightDistance = -robot.rEncoder.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
+//                        correction = 0;
+//                        robot.frontLeft.setPower(speed - correction * 0.04);
+//                        robot.frontRight.setPower(-speed - correction * 0.04);
+//                        robot.backLeft.setPower(speed - correction * 0.04);
+//                        robot.backRight.setPower(-speed - correction * 0.04);
+////                        correction = checkTurnOdo(direction, starting);
+//                        sleep(50);
+//                        telemetry.addData("position:  ", "FL(%d), FLTarget(%d)", robot.frontLeft.getCurrentPosition(), frontLeftTarget);
+//                        telemetry.update();
+//                }
+
+
+
+                robot.frontLeft.setTargetPosition(frontLeftTarget);
+                robot.frontRight.setTargetPosition(frontRightTarget);
+                robot.backLeft.setTargetPosition(backLeftTarget);
+                robot.backRight.setTargetPosition(backRightTarget);
+
+                // Turn On RUN_TO_POSITION
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                // reset the timeout time and start motion.
+                runtime.reset();
+                robot.frontLeft.setPower(Math.abs(speed));
+                robot.frontRight.setPower(Math.abs(speed));
+                robot.backLeft.setPower(Math.abs(speed));
+                robot.backRight.setPower(Math.abs(speed));
+                while (opModeIsActive() &&
+                        (runtime.seconds() < timeoutS) &&
+                        (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy())) {
+                    sleep(50);
+                    telemetry.addData("position:  ", "FL(%d), FLTarget(%d)", robot.frontLeft.getCurrentPosition(), frontLeftTarget);
+                    telemetry.update();
                 }
 
 
@@ -850,14 +850,13 @@ public class FFGyroAutoBot extends LinearOpMode {
         return newSpeed;
     }
 
-
     public void spin(HyperBot robot, double rotations, double timeoutS) {
         //start spinning
         int sTarget = robot.frontLeft.getCurrentPosition() + (int) (rotations * COUNTS_PER_INCH);
-        robot.sucker.setTargetPosition(-sTarget);
+        robot.sucker.setTargetPosition(sTarget);
         robot.sucker.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         runtime.reset();
-        robot.sucker.setPower(0.7);
+        robot.sucker.setPower(-0.7);
 
         //wait until we reach the target
         while (opModeIsActive() && runtime.seconds() < timeoutS && robot.sucker.isBusy()) {
@@ -871,20 +870,17 @@ public class FFGyroAutoBot extends LinearOpMode {
 
     public void spinUp(HyperBot robot, double rotations, double timeoutS) {
         //start spinning
-        int sTarget = robot.sucker.getCurrentPosition() + (int) (rotations * COUNTS_PER_INCH);
-        robot.sucker.setTargetPosition(-sTarget);
-        robot.sucker.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         runtime.reset();
         robot.sucker.setPower(-0.7);
 
         //wait until we reach the target
-        while (opModeIsActive() && runtime.seconds() < timeoutS && robot.sucker.isBusy()) {
+        while (opModeIsActive() && runtime.seconds() < timeoutS) {
             sleep(50);
         }
 
         //stop motion
         robot.sucker.setPower(0);
-        robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -905,7 +901,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     }
 
     public void armup2(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() + 2050;
+        target = robot.armMotor.getCurrentPosition() + 2300;
         robot.armMotor.setTargetPosition(target);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotor.setPower(-1);
@@ -950,8 +946,8 @@ public class FFGyroAutoBot extends LinearOpMode {
 
     public void spinCarouselTime(HyperBot robot, double timeoutS) {
         runtime.reset();
-        robot.spinner.setPower(0.05);
-        sleep(2000);
+        robot.spinner.setPower(-0.02);
+        sleep(5000);
         robot.spinner.setPower(0);
     }
 

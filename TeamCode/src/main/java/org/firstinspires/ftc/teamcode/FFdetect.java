@@ -11,13 +11,10 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 public class FFdetect {
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String TFOD_MODEL_ASSET = "teamelement.tflite";
 
     private static final String[] LABELS = {
-            "Ball",
-            "Cube",
-            "Duck",
-            "Marker"
+            "cup"
     };
 
     /*
@@ -93,7 +90,7 @@ public class FFdetect {
                 return "right";
             }
             for (Recognition recognition : updatedRecognitions) {
-                if (recognition.getLabel().equals(LABELS[2])) {
+                if (recognition.getLabel().equals(LABELS[0])) {
                     if ((recognition.getLeft() + recognition.getRight()) / 2 < 320) {
                         return "left";
                     } else {

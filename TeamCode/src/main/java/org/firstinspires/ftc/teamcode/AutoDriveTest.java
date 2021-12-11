@@ -40,47 +40,71 @@ public class AutoDriveTest extends FFGyroAutoBot{
         telemetry.addData("# Object Detected:  ", label);
         telemetry.update();
 
-        moveWithOdo(robot, 0.75, 12.2, 6, BACK);
+        moveWithOdo(robot, 0.75, 11.5, 6, BACK);//12.5
         sleep(150);
 
         moveWithOdo(robot, 0.75, 21.6, 6, RIGHT);
         sleep(130);
 
-//        if(label.contentEquals("left")) {
-//        armup1(robot);
-//        spinUp(robot, 1.5, 3);
-//        } else if(label.contentEquals("middle")) {
+        if(label.contentEquals("left")) {
+            //bottom
+            moveWithOdo(robot, 0.75, 2, 6, FORWARD);
+            sleep(150);
 
-            moveWithOdo(robot, 0.75, 0.7, 6, BACK);
+
+            armup2(robot);
+            sleep(5000);
+            spinUp(robot, 1.5, 2);
+
+            sleep(150);
+            armdown(robot, 2200);
+
+        } else if(label.contentEquals("middle")) {
+            //middle
+//            moveWithOdo(robot, 0.75, 1, 6, BACK);
+//            sleep(150);
+
+            armup1(robot);
+            sleep(1000);
+            spin(robot, 1.5, 2);
+
+            sleep(150);
+            armdown(robot, 1900);
+
+        } else {
+            //top
+            moveWithOdo(robot, 0.75, 2, 6, BACK);
             sleep(150);
 
             armup1(robot);
-            spin(robot, 1.5, 2);
-//        } else {
-//            armup1(robot);
-//        }
+            spinUp(robot, 1.5, 2);
+
+            sleep(150);
+            armdown(robot, 1900);
+
+        }
 
 
 
+
+        moveWithOdo(robot,0.3, 18.21, 6, TURNLEFT);
         sleep(150);
-        armdown(robot, 1900);
-        moveWithOdo(robot,0.3, 6.25, 6, TURNLEFT);
-        sleep(150);
-        moveWithOdo(robot, 0.7, 43.5, 6, FORWARD);
-        moveWithOdo(robot, 0.2, 8, 6, FORWARD);
+        moveWithOdo(robot, 0.7, 43, 6, FORWARD);
+        moveWithOdo(robot, 0.2, 7, 6, FORWARD);
         sleep(150);
         spinCarouselTime(robot, 3);
 
 
         if(warehouseParking){
-            moveWithOdo(robot, 1, 3.5, 6, TURNRIGHT);
+            moveWithOdo(robot, 1, 17, 6, TURNRIGHT);
             moveWithOdo(robot, 0.7, 40, 8, FORWARD);
         }else {
-            moveWithOdo(robot, 0.5, 8, 10, TURNLEFT);
+            raiseOdo(robot);
+            moveWithOdo(robot, 0.5, 41.5, 10, TURNLEFT);
             sleep(150);
 //            raiseOdo(robot);
 //            sleep(150);
-            moveWithOdo(robot, 1, 80, 10, FORWARD);
+            moveWithOdo(robot, 1, 105, 15, FORWARD);
 
 
             //tested at 12.4 volts
