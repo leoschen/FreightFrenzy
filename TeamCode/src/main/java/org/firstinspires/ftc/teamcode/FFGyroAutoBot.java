@@ -915,7 +915,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     }
 
     public void armup3(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() + 2050;
+        target = robot.armMotor.getCurrentPosition() + 2650;
         robot.armMotor.setTargetPosition(target);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotor.setPower(-1);
@@ -946,7 +946,7 @@ public class FFGyroAutoBot extends LinearOpMode {
 
     public void spinCarouselTime(HyperBot robot, double timeoutS) {
         runtime.reset();
-        robot.spinner.setPower(-0.02);
+        robot.spinner.setPower(-0.03);
         sleep(5000);
         robot.spinner.setPower(0);
     }

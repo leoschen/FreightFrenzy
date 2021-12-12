@@ -251,10 +251,10 @@ public class HyperBotDriver extends LinearOpMode {
             //intake
 
             if (gamepad2.left_trigger != 0) {
-                suckPower = 0.5 * gamepad2.left_trigger;
+                suckPower = gamepad2.left_trigger;
                 robot.sucker.setPower(suckPower);
             } else {
-                suckPower = 0 - gamepad2.right_trigger;
+                suckPower = - gamepad2.right_trigger * 0.5;
             robot.sucker.setPower(suckPower);
             }
 //            robot.intakeRight.setPower(intakePower);
