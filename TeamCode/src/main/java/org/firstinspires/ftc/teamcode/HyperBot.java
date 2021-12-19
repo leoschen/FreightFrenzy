@@ -2,11 +2,19 @@ package org.firstinspires.ftc.teamcode;
 
 import android.media.MediaPlayer;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+
+
+import org.firstinspires.ftc.teamcode.util.Encoder;
 
 public class HyperBot {
     /* Public OpMode members. */
@@ -17,20 +25,38 @@ public class HyperBot {
     public DcMotor  backRight   = null;
     public DcMotor  armMotor    = null;
     public DcMotor  spinner     = null;
-//    public DcMotor  lEncoder    = null;
+    public DcMotor  lEncoder    = null;
     public DcMotor  rEncoder    = null;
-//    public DcMotor  bEncoder    = null;
+    public DcMotor  bEncoder    = null;
     public DcMotor  sucker      = null;
     public int lEncoderDirection = 1;
     public int rEncoderDirection = 1;
     public int bEncoderDirection = -1;
-//    public DcMotor  conveyor   = null;
+    //    public DcMotor  conveyor   = null;
 //    public DcMotor  linearDrive = null;
 //    public DcMotor    linearServo = null;
     public Servo    leftServo   = null;
     public Servo    backServo   = null;
     public Servo    rightServo   = null;
     public Servo    clawServo   = null;
+
+    double left;
+    double right;
+    double back;
+    double left2 = left;
+    double right2 = right;
+    double back2 = back;
+    double n1 = 0;
+    double n2 = 0;
+    double n3 = 0;
+    double ldistance = 0;
+    double rdistance = 0;
+    double bdistance = 0;
+    double distancex = 0;
+    double distancey = 0;
+    double heading = 0;
+    double centerside = 11.75;
+    double centerback = 5.75;
 //
 //    //intake
 ////    public RevRobotics40HdHexMotor intakeArmLeft = null;
@@ -65,12 +91,14 @@ public class HyperBot {
         frontRight = hwMap.get(DcMotor.class, "frontRight");
         backLeft = hwMap.get(DcMotor.class, "backLeft");
         backRight = hwMap.get(DcMotor.class, "backRight");
-//        bEncoder = hwMap.get(DcMotor.class, "bEncoder");
-//        lEncoder = hwMap.get(DcMotor.class, "lEncoder");
-        rEncoder = hwMap.get(DcMotor.class, "rEncoder");
+        bEncoder = hwMap.get(DcMotorEx.class, "spinner");
+        lEncoder = hwMap.get(DcMotorEx.class, "sucker");
+        rEncoder = hwMap.get(DcMotorEx.class, "rEncoder");
+        rEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor = hwMap.get(DcMotor.class, "armMotor");
         sucker = hwMap.get(DcMotor.class, "sucker");
         spinner = hwMap.get(DcMotor.class, "spinner");
+
 
         // Set all motors to run without encoder by default
         //encoder = fll degrees
@@ -78,9 +106,9 @@ public class HyperBot {
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         sucker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         spinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -141,8 +169,58 @@ public class HyperBot {
 
 //        colorSensor = ahwMap.get(ColorSensor.class, "colorSensor");
 //        distanceSensor = ahwMap.get(DistanceSensor.class, "distanceSensor");
+
+//        getCurrentPosition();
+        left = lEncoder.getCurrentPosition();
+        right = rEncoder.getCurrentPosition();
+        back = bEncoder.getCurrentPosition();
+        left2 = left;
+         right2 = right;
+         back2 = back;
+        return;
+
+
+    }
+
+    public void getCurrentPosition() {
+        TelemetryPacket packet = new TelemetryPacket();
+
+//
+
+
+            left = lEncoder.getCurrentPosition();
+            right = rEncoder.getCurrentPosition();
+            back = bEncoder.getCurrentPosition();
+            n1 = left - left2;
+            n2 = right - right2;
+            n3 = back - back2;
+            ldistance = (n1/8192)*2*Math.PI*0.6889763779527559;
+            rdistance = (n2/8192)*2*Math.PI*0.6889763779527559;
+            bdistance = (n3/8192)*2*Math.PI*0.6889763779527559;
+            distancex = distancex + (ldistance+rdistance)/2;
+            heading = heading + (rdistance-ldistance)/centerside;
+        double heading2 = heading * 57.29578;
+            distancey = (distancey + bdistance - centerback*(rdistance-ldistance)/centerside);
+            left2 = left;
+            right2 = right;
+            back2 = back;
+
+        packet.put("X position:  ", distancex);
+        packet.put("Y position:  ", distancey);
+        packet.put("Heading:  ", heading2);
+        FtcDashboard.getInstance().sendTelemetryPacket(packet);
+    }
+    public void lowerOdo(){
+        leftServo.setPosition(1);
+        rightServo.setPosition(0);
+        backServo.setPosition(1);
+    }
+    public void raiseOdo() {
+        leftServo.setPosition(0);
+        rightServo.setPosition(1);
+        backServo.setPosition(0);
     }
 
 
- }
+}
 
