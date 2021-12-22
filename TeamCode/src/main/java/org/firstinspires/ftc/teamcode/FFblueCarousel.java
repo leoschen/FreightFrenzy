@@ -27,9 +27,15 @@ public class FFblueCarousel extends AutoBot{
 //        telemetry.update();
         setup();
         waitForStart();
+        double distancex = HyperBot.class.getModifiers();
+        int distancey = HyperBot.class.getModifiers();
+        int heading = HyperBot.class.getModifiers();
 
         label = ob.detectDuckPos();
         telemetry.addData("# Object Detected:  ", label);
+        telemetry.addData("x coordinate:  ", distancex);
+        telemetry.addData("y coordinate:  ", distancey);
+        telemetry.addData("heading:  ", heading);
         telemetry.update();
 
 
@@ -56,7 +62,6 @@ public class FFblueCarousel extends AutoBot{
         move(robot, 0.7, 43, 6, FORWARD);
         move(robot, 0.2, 8, 6, FORWARD);
         sleep(150);
-        spinCarousel(robot, 3);
 
 
         if(warehouseParking){
@@ -68,6 +73,8 @@ public class FFblueCarousel extends AutoBot{
             move(robot, 0.7, 17, 6, FORWARD);
             //tested at 12.4 volts
         }
+
+
 
 
 

@@ -57,6 +57,9 @@ public class HyperBot {
     double heading = 0;
     double centerside = 11.75;
     double centerback = 5.75;
+    double diffx = 0;
+    double diffy = 0;
+    double diffhead = 0;
 //
 //    //intake
 ////    public RevRobotics40HdHexMotor intakeArmLeft = null;
@@ -197,17 +200,19 @@ public class HyperBot {
             ldistance = (n1/8192)*2*Math.PI*0.6889763779527559;
             rdistance = (n2/8192)*2*Math.PI*0.6889763779527559;
             bdistance = (n3/8192)*2*Math.PI*0.6889763779527559;
-            distancex = distancex + (ldistance+rdistance)/2;
-            heading = heading + (rdistance-ldistance)/centerside;
-        double heading2 = heading * 57.29578;
-            distancey = (distancey + bdistance - centerback*(rdistance-ldistance)/centerside);
+            diffx = (ldistance+rdistance)/2;
+            diffy = (bdistance - centerback*(rdistance-ldistance)/centerside);
+            diffhead = (rdistance-ldistance)/centerside;
+            distancex = distancex + diffx * Math.cos(heading) - diffy * Math.sin(heading);
+            distancey = distancey + diffy*Math.cos(heading)+ diffx;
+            heading = heading + diffhead;
             left2 = left;
             right2 = right;
             back2 = back;
 
         packet.put("X position:  ", distancex);
         packet.put("Y position:  ", distancey);
-        packet.put("Heading:  ", heading2);
+        packet.put("Heading:  ", heading);
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
     }
     public void lowerOdo(){
