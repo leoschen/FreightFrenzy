@@ -261,7 +261,8 @@ public class HyperBotDriver extends LinearOpMode {
 
 
 //            robot.intakeRight.setPower(intakePower)
-        robot.armMotor.setPower(gamepad2.left_stick_y * -armPower);
+        robot.armMotorRight.setPower(gamepad2.left_stick_y * -armPower);
+            robot.armMotorLeft.setPower(gamepad2.left_stick_y * -armPower);
 
 
 
