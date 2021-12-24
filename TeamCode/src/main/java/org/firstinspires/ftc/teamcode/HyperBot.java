@@ -23,7 +23,8 @@ public class HyperBot {
     public DcMotor  frontRight  = null;
     public DcMotor  backLeft    = null;
     public DcMotor  backRight   = null;
-    public DcMotor  armMotor    = null;
+    public DcMotor  armMotorRight    = null;
+    public DcMotor  armMotorLeft    = null;
     public DcMotor  spinner     = null;
     public DcMotor  lEncoder    = null;
     public DcMotor  rEncoder    = null;
@@ -98,7 +99,8 @@ public class HyperBot {
         lEncoder = hwMap.get(DcMotorEx.class, "sucker");
         rEncoder = hwMap.get(DcMotorEx.class, "rEncoder");
         rEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
-        armMotor = hwMap.get(DcMotor.class, "armMotor");
+        armMotorRight = hwMap.get(DcMotor.class, "armMotor");
+        armMotorLeft = hwMap.get(DcMotor.class, "armMotor");
         sucker = hwMap.get(DcMotor.class, "sucker");
         spinner = hwMap.get(DcMotor.class, "spinner");
 
@@ -112,7 +114,8 @@ public class HyperBot {
         lEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         sucker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         spinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
