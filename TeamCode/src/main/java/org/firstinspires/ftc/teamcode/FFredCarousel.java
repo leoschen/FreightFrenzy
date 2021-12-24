@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="FFblueCarousel", group="HGT")
+@Autonomous(name="FFredCarousel", group="HGT")
 
 public class FFredCarousel extends AutoBot{
     @Override

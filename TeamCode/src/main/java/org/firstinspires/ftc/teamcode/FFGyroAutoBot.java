@@ -887,42 +887,42 @@ public class FFGyroAutoBot extends LinearOpMode {
     int target = 0;
 
     public void armup1(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() + 2000;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(-1);
-        while (robot.armMotor.isBusy()) {
-            if (robot.armMotor.getCurrentPosition() >= target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition() + 2000;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(-1);
+        while (robot.armMotorRight.isBusy()) {
+            if (robot.armMotorRight.getCurrentPosition() >= target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
     }
 
     public void armup2(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() + 2300;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(-1);
-        while (robot.armMotor.isBusy()) {
-            if (robot.armMotor.getCurrentPosition() >= target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition() + 2300;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(-1);
+        while (robot.armMotorRight.isBusy()) {
+            if (robot.armMotorRight.getCurrentPosition() >= target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
     }
 
     public void armup3(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() + 2650;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(-1);
-        while (robot.armMotor.isBusy()) {
-            if (robot.armMotor.getCurrentPosition() >= target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition() + 2650;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(-1);
+        while (robot.armMotorRight.isBusy()) {
+            if (robot.armMotorRight.getCurrentPosition() >= target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
@@ -930,14 +930,14 @@ public class FFGyroAutoBot extends LinearOpMode {
 
 
     public void armdown (HyperBot robot, int distance) {
-        target = robot.armMotor.getCurrentPosition() - distance;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(1);
-        while(robot.armMotor.isBusy()) {
-            if(robot.armMotor.getCurrentPosition()<=target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition() - distance;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(1);
+        while(robot.armMotorRight.isBusy()) {
+            if(robot.armMotorRight.getCurrentPosition()<=target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }

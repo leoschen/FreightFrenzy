@@ -247,7 +247,6 @@ public class frensyBotDriver extends LinearOpMode {
 
 
 //            robot.intakeRight.setPower(intakePower)
-            robot.armMotor.setPower(gamepad2.left_stick_y * armPower);
 //            robot.intakeArm.setPower(0.75);
 //            if (gamepad2.a) {
 //                robot.intakeArm.setTargetPosition(robot.intakeArm.getCurrentPosition()+350);
@@ -267,7 +266,7 @@ public class frensyBotDriver extends LinearOpMode {
             //debugging
 //        telemetry.addData("Motors", "FL(%.2f), FR(%.2f), BL:(%.2f), BR:(%.2f), Arm:(%.2f), Suck:(%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower, robot.armMotor.getPower(), robot.sucker.getPower());
             telemetry.addData("Motors", "FL(%.2f), FR(%.2f), BL:(%.2f), BR:(%.2f), Arm:(%d), Sucker(%d)",
-                    frontLeftPower, frontRightPower, backLeftPower, backRightPower, robot.armMotor.getCurrentPosition(), robot.sucker.getCurrentPosition()
+                    frontLeftPower, frontRightPower, backLeftPower, backRightPower, robot.armMotorRight.getCurrentPosition(), robot.sucker.getCurrentPosition()
 //                    , (double)robot.bEncoder.getCurrentPosition()*0.0134, (double)robot.lEncoder.getCurrentPosition()*0.0134, (double)robot.rEncoder.getCurrentPosition()*0.0134
             );
 //            , , robot.rEncoder.getCurrentPosition()

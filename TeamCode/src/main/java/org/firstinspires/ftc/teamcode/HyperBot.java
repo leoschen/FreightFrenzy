@@ -97,10 +97,10 @@ public class HyperBot {
         backRight = hwMap.get(DcMotor.class, "backRight");
         bEncoder = hwMap.get(DcMotorEx.class, "spinner");
         lEncoder = hwMap.get(DcMotorEx.class, "sucker");
-        rEncoder = hwMap.get(DcMotorEx.class, "rEncoder");
+        rEncoder = hwMap.get(DcMotorEx.class, "armMotorLeft");
         rEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
-        armMotorRight = hwMap.get(DcMotor.class, "armMotor");
-        armMotorLeft = hwMap.get(DcMotor.class, "armMotor");
+        armMotorRight = hwMap.get(DcMotor.class, "armMotorRight");
+        armMotorLeft = hwMap.get(DcMotor.class, "armMotorLeft");
         sucker = hwMap.get(DcMotor.class, "sucker");
         spinner = hwMap.get(DcMotor.class, "spinner");
 
