@@ -214,58 +214,58 @@ public class AutoBot extends LinearOpMode {
 
 
     public void armup1(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() - 2500;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(1);
-        while (robot.armMotor.isBusy()) {
-            telemetry.addData("armPos","(%d)", robot.armMotor.getCurrentPosition());
+        target = robot.armMotorRight.getCurrentPosition() - 2500;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(1);
+        while (robot.armMotorRight.isBusy()) {
+            telemetry.addData("armPos","(%d)", robot.armMotorRight.getCurrentPosition());
             telemetry.update();
-            if (robot.armMotor.getCurrentPosition() <= target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            if (robot.armMotorRight.getCurrentPosition() <= target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
     }
 
     public void armup2(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() - 650;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(1);
-        while (robot.armMotor.isBusy()) {
-            if (robot.armMotor.getCurrentPosition() <= target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition() - 650;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(1);
+        while (robot.armMotorRight.isBusy()) {
+            if (robot.armMotorRight.getCurrentPosition() <= target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
     }
 
     public void armup3(HyperBot robot) {
-        target = robot.armMotor.getCurrentPosition() - 1200;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(1);
-        while (robot.armMotor.isBusy()) {
-            if (robot.armMotor.getCurrentPosition() <= target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition() - 1200;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(1);
+        while (robot.armMotorRight.isBusy()) {
+            if (robot.armMotorRight.getCurrentPosition() <= target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
     }
 
     public void armdown (HyperBot robot, int distance) {
-        target = robot.armMotor.getCurrentPosition()+distance;
-        robot.armMotor.setTargetPosition(target);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(-1);
-        while(robot.armMotor.isBusy()) {
-            if(robot.armMotor.getCurrentPosition()>=target) {
-                robot.armMotor.setPower(0);
-                robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        target = robot.armMotorRight.getCurrentPosition()+distance;
+        robot.armMotorRight.setTargetPosition(target);
+        robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotorRight.setPower(-1);
+        while(robot.armMotorRight.isBusy()) {
+            if(robot.armMotorRight.getCurrentPosition()>=target) {
+                robot.armMotorRight.setPower(0);
+                robot.armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;
             }
         }
