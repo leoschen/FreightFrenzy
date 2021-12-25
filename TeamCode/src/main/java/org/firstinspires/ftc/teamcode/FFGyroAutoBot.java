@@ -71,7 +71,7 @@ public class FFGyroAutoBot extends LinearOpMode {
         robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.sucker.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.spinner.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -79,7 +79,7 @@ public class FFGyroAutoBot extends LinearOpMode {
         robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.sucker.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.spinner.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -244,11 +244,11 @@ public class FFGyroAutoBot extends LinearOpMode {
 
                 correction = 0;
                 left = robot.sucker.getCurrentPosition();
-                right = -robot.rEncoder.getCurrentPosition();
+                right = -robot.armMotorLeft.getCurrentPosition();
                 middle = robot.spinner.getCurrentPosition();
 
                 leftDistance = robot.sucker.getCurrentPosition() + (inches * ODOMETER_COUNTS_PER_INCH);
-                rightDistance = -robot.rEncoder.getCurrentPosition() + (inches * ODOMETER_COUNTS_PER_INCH);
+                rightDistance = -robot.armMotorLeft.getCurrentPosition() + (inches * ODOMETER_COUNTS_PER_INCH);
 
                 System.out.println("\n\n\n\nTarget set and encoders distance set\n\n\n\n\n");
                 telemetry.addData("Target set and encoders distance set", "");
@@ -273,7 +273,7 @@ public class FFGyroAutoBot extends LinearOpMode {
                         System.out.println("\n\n\n\nset speed\n\n\n\n");
 //PID(robot.sucker.getCurrentPosition(), robot.rEncoder.getCurrentPosition(), left, right, inches, speed);
 
-                        PIDSpeed = PID(robot.sucker.getCurrentPosition(), -robot.rEncoder.getCurrentPosition(), left, right, inches, speed);
+                        PIDSpeed = PID(robot.sucker.getCurrentPosition(), -robot.armMotorLeft.getCurrentPosition(), left, right, inches, speed);
 
                         robot.frontLeft.setPower(Math.abs(PIDSpeed) - (correction * 0.4));//0.6
                         robot.frontRight.setPower(Math.abs(PIDSpeed) + (correction * 0.4));//0.6
@@ -285,7 +285,7 @@ public class FFGyroAutoBot extends LinearOpMode {
                     } else if (direction == LEFT || direction == FORWARD) {
                         System.out.println("\n\n\n\nset speed\n\n\n\n");
 
-                        PIDSpeed = PID(robot.sucker.getCurrentPosition(), -robot.rEncoder.getCurrentPosition(), left, right, inches, speed);
+                        PIDSpeed = PID(robot.sucker.getCurrentPosition(), -robot.armMotorLeft.getCurrentPosition(), left, right, inches, speed);
 
                         robot.frontLeft.setPower(Math.abs(PIDSpeed) + (correction * 0.4));//0.6
                         robot.frontRight.setPower(Math.abs(PIDSpeed) - (correction * 0.4));//0.6
@@ -321,7 +321,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     public double checkOdometry() {
         System.out.println("\n\n\n\ncheck current position\n\n\n\n----------------------------------------------");
         leftOdometry = robot.sucker.getCurrentPosition() - left;
-        rightOdometry = -robot.rEncoder.getCurrentPosition() - right;
+        rightOdometry = -robot.armMotorLeft.getCurrentPosition() - right;
         middleOdometry = robot.spinner.getCurrentPosition() - middle;
 
         System.out.println("left" + leftOdometry * ODOMETER_COUNTS_PER_INCH + "\nright" + rightOdometry * ODOMETER_COUNTS_PER_INCH + "\nback" + middleOdometry * ODOMETER_COUNTS_PER_INCH);
@@ -345,7 +345,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     public double checkTurnOdo(int direction, double start) {
 
         double leftOdom = robot.sucker.getCurrentPosition() * ODOMETER_COUNTS_PER_INCH;
-        double rightOdom = -robot.rEncoder.getCurrentPosition()  * ODOMETER_COUNTS_PER_INCH;
+        double rightOdom = -robot.armMotorLeft.getCurrentPosition()  * ODOMETER_COUNTS_PER_INCH;
         double change = rightOdom + leftOdom - start;
 //        if(direction == TURNLEFT) {
 //            change = rightOdom + leftOdom;

@@ -218,6 +218,80 @@ public class HyperBot {
         packet.put("Heading:  ", heading);
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
     }
+
+
+    public double getCurrentX() {
+
+        left = lEncoder.getCurrentPosition();
+        right = rEncoder.getCurrentPosition();
+        back = bEncoder.getCurrentPosition();
+        n1 = left - left2;
+        n2 = right - right2;
+        n3 = back - back2;
+        ldistance = (n1/8192)*2*Math.PI*0.6889763779527559;
+        rdistance = (n2/8192)*2*Math.PI*0.6889763779527559;
+        bdistance = (n3/8192)*2*Math.PI*0.6889763779527559;
+        diffx = (ldistance+rdistance)/2;
+        diffy = (bdistance - centerback*(rdistance-ldistance)/centerside);
+        diffhead = (rdistance-ldistance)/centerside;
+        distancex = distancex + diffx * Math.cos(heading) - diffy * Math.sin(heading);
+        distancey = distancey + diffy*Math.cos(heading)+ diffx;
+        heading = heading + diffhead;
+        left2 = left;
+        right2 = right;
+        back2 = back;
+
+        return distancex;
+    }
+    public double getCurrentY() {
+
+        left = lEncoder.getCurrentPosition();
+        right = rEncoder.getCurrentPosition();
+        back = bEncoder.getCurrentPosition();
+        n1 = left - left2;
+        n2 = right - right2;
+        n3 = back - back2;
+        ldistance = (n1/8192)*2*Math.PI*0.6889763779527559;
+        rdistance = (n2/8192)*2*Math.PI*0.6889763779527559;
+        bdistance = (n3/8192)*2*Math.PI*0.6889763779527559;
+        diffx = (ldistance+rdistance)/2;
+        diffy = (bdistance - centerback*(rdistance-ldistance)/centerside);
+        diffhead = (rdistance-ldistance)/centerside;
+        distancex = distancex + diffx * Math.cos(heading) - diffy * Math.sin(heading);
+        distancey = distancey + diffy*Math.cos(heading)+ diffx;
+        heading = heading + diffhead;
+        left2 = left;
+        right2 = right;
+        back2 = back;
+
+        return distancey;
+    }
+
+    public double getCurrentH() {
+
+        left = lEncoder.getCurrentPosition();
+        right = rEncoder.getCurrentPosition();
+        back = bEncoder.getCurrentPosition();
+        n1 = left - left2;
+        n2 = right - right2;
+        n3 = back - back2;
+        ldistance = (n1/8192)*2*Math.PI*0.6889763779527559;
+        rdistance = (n2/8192)*2*Math.PI*0.6889763779527559;
+        bdistance = (n3/8192)*2*Math.PI*0.6889763779527559;
+        diffx = (ldistance+rdistance)/2;
+        diffy = (bdistance - centerback*(rdistance-ldistance)/centerside);
+        diffhead = (rdistance-ldistance)/centerside;
+        distancex = distancex + diffx * Math.cos(heading) - diffy * Math.sin(heading);
+        distancey = distancey + diffy*Math.cos(heading)+ diffx;
+        heading = heading + diffhead;
+        left2 = left;
+        right2 = right;
+        back2 = back;
+
+        return heading;
+    }
+
+
     public void lowerOdo(){
         leftServo.setPosition(1);
         rightServo.setPosition(0);
