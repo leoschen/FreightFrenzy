@@ -1,6 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+
 
 @Autonomous(name="FFredCarousel", group="HGT")
 
@@ -17,6 +23,9 @@ public class FFredCarousel extends AutoBot{
 //        telemetry.update();
         setup();
         waitForStart();
+
+        SampleMecanumDrive drive = null;
+        Pose2d startPose = null;
 
         label = ob.detectDuckPos();
         telemetry.addData("# Object Detected:  ", label);
@@ -41,7 +50,12 @@ public class FFredCarousel extends AutoBot{
 
         sleep(150);
         armdown(robot, 2400);
-        move(robot,0.5, 18.4, 6, TURNRIGHT);
+        //move(robot,0.5, 18.4, 6, TURNRIGHT);
+        TrajectorySequence ts = drive.trajectorySequenceBuilder(startPose)
+                .turn(Math.toRadians(-90)) // Turns 90 degrees clockwise
+                .build();
+
+        drive.followTrajectorySequence(ts);
         sleep(150);
         move(robot, 0.7, 43, 6, FORWARD);
         move(robot, 0.2, 8, 6, FORWARD);
