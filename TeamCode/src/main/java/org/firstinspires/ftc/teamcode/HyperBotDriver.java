@@ -136,6 +136,13 @@ public class HyperBotDriver extends LinearOpMode {
             robot.leftServo.setPosition(clawOffset);
             robot.backServo.setPosition(clawOffset);
             robot.rightServo.setPosition(1-clawOffset);
+
+            if (gamepad2.left_bumper) {
+                robot.intakeServo.setPosition(0);
+            }
+            if (gamepad2.right_bumper) {
+                robot.intakeServo.setPosition(1);
+            }
 //
 //            //arm for wobble grabber
 //
@@ -262,7 +269,7 @@ public class HyperBotDriver extends LinearOpMode {
 
 //            robot.intakeRight.setPower(intakePower)
         robot.armMotorRight.setPower(gamepad2.left_stick_y * -armPower);
-            robot.armMotorLeft.setPower(gamepad2.left_stick_y * -armPower);
+            robot.armMotorLeft.setPower(gamepad2.left_stick_y * armPower);
 
 
 

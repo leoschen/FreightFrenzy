@@ -40,6 +40,7 @@ public class HyperBot {
     public Servo    backServo   = null;
     public Servo    rightServo   = null;
     public Servo    clawServo   = null;
+    public Servo    intakeServo   = null;
 
     double left;
     double right;
@@ -159,6 +160,7 @@ public class HyperBot {
 //      //  linearServo  = hwMap.crservo.get("linearServo");
 ////        linearDrive = hwMap.get(DcMotor.class, "linearDrive");
         leftServo  = hwMap.get(Servo.class, "leftServo");
+        intakeServo  = hwMap.get(Servo.class, "intakeServo");
         backServo  = hwMap.get(Servo.class, "backServo");
         rightServo  = hwMap.get(Servo.class, "rightServo");
         clawServo  = hwMap.get(Servo.class, "clawServo");
