@@ -41,6 +41,7 @@ public class HyperBot {
     public Servo    rightServo   = null;
     public Servo    clawServo   = null;
     public Servo    intakeServo   = null;
+    public Servo    rampServo   = null;
 
     double left;
     double right;
@@ -164,6 +165,7 @@ public class HyperBot {
         backServo  = hwMap.get(Servo.class, "backServo");
         rightServo  = hwMap.get(Servo.class, "rightServo");
         clawServo  = hwMap.get(Servo.class, "clawServo");
+        rampServo  = hwMap.get(Servo.class, "rampServo");
         clawServo.setPosition(1);
 ////        intakePusher  = hwMap.get(Servo.class, "intakePusher");
 ////        intakePusher.setPosition(1);

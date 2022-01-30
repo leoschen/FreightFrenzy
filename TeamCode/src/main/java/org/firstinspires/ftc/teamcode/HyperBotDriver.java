@@ -128,8 +128,13 @@ public class HyperBotDriver extends LinearOpMode {
                 clawOffset = 1;
             }
             if (gamepad2.dpad_up) {
-                robot.clawServo.setPosition(0);
+                robot.rampServo.setPosition(0);
             } else if (gamepad2.dpad_down) {
+                robot.rampServo.setPosition(1);
+            }
+            if (gamepad2.dpad_left) {
+                robot.clawServo.setPosition(0);
+            } else if (gamepad2.dpad_right) {
                 robot.clawServo.setPosition(1);
             }
             clawOffset = Range.clip(clawOffset, 0, 1);
@@ -258,10 +263,10 @@ public class HyperBotDriver extends LinearOpMode {
             //intake
 
             if (gamepad2.left_trigger != 0) {
-                suckPower = 0.5 * gamepad2.left_trigger;
+                suckPower = gamepad2.left_trigger;
                 robot.sucker.setPower(suckPower);
             } else {
-                suckPower = 0 - gamepad2.right_trigger;
+                suckPower = (0 - gamepad2.right_trigger)*0.5;
             robot.sucker.setPower(suckPower);
             }
 //            robot.intakeRight.setPower(intakePower);
