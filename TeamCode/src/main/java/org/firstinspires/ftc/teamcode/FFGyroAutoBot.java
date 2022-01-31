@@ -850,6 +850,18 @@ public class FFGyroAutoBot extends LinearOpMode {
         return newSpeed;
     }
 
+    public void lower(HyperBot robot) {
+        robot.rampServo.setPosition(1);
+    }
+    public void drop(HyperBot robot) {
+        robot.clawServo.setPosition(1);
+    }
+
+    public void close(HyperBot robot) {
+        robot.clawServo.setPosition(0);
+        robot.rampServo.setPosition(0);
+    }
+
     public void spin(HyperBot robot, double rotations, double timeoutS) {
         //start spinning
         int sTarget = robot.frontLeft.getCurrentPosition() + (int) (rotations * COUNTS_PER_INCH);
@@ -887,7 +899,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     int target = 0;
 
     public void armup1(HyperBot robot) {
-        target = robot.armMotorRight.getCurrentPosition() + 2000;
+        target = robot.armMotorRight.getCurrentPosition() + 1600;
         robot.armMotorRight.setTargetPosition(target);
         robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotorRight.setPower(-1);
@@ -901,7 +913,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     }
 
     public void armup2(HyperBot robot) {
-        target = robot.armMotorRight.getCurrentPosition() + 2300;
+        target = robot.armMotorRight.getCurrentPosition() + 2100;
         robot.armMotorRight.setTargetPosition(target);
         robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotorRight.setPower(-1);
@@ -915,7 +927,7 @@ public class FFGyroAutoBot extends LinearOpMode {
     }
 
     public void armup3(HyperBot robot) {
-        target = robot.armMotorRight.getCurrentPosition() + 2650;
+        target = robot.armMotorRight.getCurrentPosition() + 2350;
         robot.armMotorRight.setTargetPosition(target);
         robot.armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotorRight.setPower(-1);

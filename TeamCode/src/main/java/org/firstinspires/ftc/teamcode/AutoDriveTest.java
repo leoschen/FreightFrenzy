@@ -48,16 +48,18 @@ public class AutoDriveTest extends FFGyroAutoBot{
 
         if(label.contentEquals("left")) {
             //bottom
-            moveWithOdo(robot, 0.75, 6, 6, FORWARD);
+            moveWithOdo(robot, 0.75, 3, 6, FORWARD);
             sleep(150);
 
 
             armup3(robot);
             sleep(150);
-            spinUp(robot, 1.5, 2);
+            drop(robot);
+            sleep(1000);
+            close(robot);
 
             sleep(150);
-            armdown(robot, 2550);
+            armdown(robot, 2350);
 
             moveWithOdo(robot,0.3, 19.5, 6, TURNLEFT);
             sleep(150);
@@ -67,16 +69,18 @@ public class AutoDriveTest extends FFGyroAutoBot{
 
         } else if(label.contentEquals("middle")) {
             //middle
-            moveWithOdo(robot, 0.75, 4.8, 6, FORWARD);
+            moveWithOdo(robot, 0.75, 2, 6, FORWARD);
             sleep(150);
 
 
-            armup3(robot);
+            armup2(robot);
             sleep(150);
-            spinUp(robot, 1.5, 2);
+            drop(robot);
+            sleep(1000);
+            close(robot);
 
             sleep(150);
-            armdown(robot, 2550);
+            armdown(robot, 2100);
 
             moveWithOdo(robot,0.3, 19.3, 6, TURNLEFT);
             sleep(150);
@@ -90,10 +94,14 @@ public class AutoDriveTest extends FFGyroAutoBot{
             sleep(150);
 
             armup1(robot);
-            spinUp(robot, 1.5, 2);
+            lower(robot);
+            sleep(150);
+            drop(robot);
+            sleep(1000);
+            close(robot);
 
             sleep(150);
-            armdown(robot, 1900);
+            armdown(robot, 1500);
 
             moveWithOdo(robot,0.3, 18.5, 6, TURNLEFT);
             sleep(150);
