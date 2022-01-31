@@ -71,11 +71,11 @@ public class HyperBotDriver extends LinearOpMode {
 
             robot.spinner.setPower(spinnerPower*gamepad2.right_stick_y*0.3);
             if(gamepad1.left_stick_x > -0.85 && gamepad1.left_stick_x < 0) {
-                sidewayRightX = 0.35 * gamepad1.left_stick_x;
+                sidewayRightX = 0.5 * gamepad1.left_stick_x;
             } else if(gamepad1.left_stick_x < 0.85 && gamepad1.left_stick_x > 0) {
-                sidewayRightX = 0.35 * gamepad1.left_stick_x;
+                sidewayRightX = 0.5 * gamepad1.left_stick_x;
             } else {
-                sidewayRightX = gamepad1.left_stick_x;
+                sidewayRightX = gamepad1.left_stick_x * gamepad1.left_stick_x;
             }
 
             if(gamepad1.left_stick_y > -0.85 && gamepad1.left_stick_y < 0) {
