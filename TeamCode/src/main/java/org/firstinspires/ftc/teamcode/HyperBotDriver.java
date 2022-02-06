@@ -74,7 +74,10 @@ public class HyperBotDriver extends LinearOpMode {
                 sidewayRightX = 0.5 * gamepad1.left_stick_x;
             } else if(gamepad1.left_stick_x < 0.85 && gamepad1.left_stick_x > 0) {
                 sidewayRightX = 0.5 * gamepad1.left_stick_x;
-            } else {
+            } else if(gamepad1.left_stick_x <= -0.85 && gamepad1.left_stick_x < 0) {
+            sidewayRightX = -1 * gamepad1.left_stick_x * gamepad1.left_stick_x;
+            }
+            else {
                 sidewayRightX = gamepad1.left_stick_x * gamepad1.left_stick_x;
             }
 
@@ -87,11 +90,11 @@ public class HyperBotDriver extends LinearOpMode {
             }
 
             if(gamepad1.right_stick_x > -0.85 && gamepad1.right_stick_x < 0) {
-                turn  =  0.35 * gamepad1.right_stick_x;
+                turn  =  switchBack*0.35 * gamepad1.right_stick_x;
             } else if(gamepad1.right_stick_x < 0.85 && gamepad1.right_stick_x > 0) {
-                turn  =  0.35 * gamepad1.right_stick_x;
+                turn  =  switchBack*0.35 * gamepad1.right_stick_x;
             } else {
-                turn  =  gamepad1.right_stick_x;
+                turn  =  switchBack*gamepad1.right_stick_x;
             }
 
 
