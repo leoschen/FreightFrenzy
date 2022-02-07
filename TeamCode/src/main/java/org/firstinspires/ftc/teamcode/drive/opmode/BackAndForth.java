@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.util.Encoder;
 
 /*
  * Op mode for preliminary tuning of the follower PID coefficients (located in the drive base
@@ -44,9 +46,19 @@ public class BackAndForth extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive() && !isStopRequested()) {
+        Encoder left = ((StandardTrackingWheelLocalizer)drive.getLocalizer()).getLeftEncoder();
+        Encoder right = ((StandardTrackingWheelLocalizer)drive.getLocalizer()).getRightEncoder();
+
+
+        //while (opModeIsActive() && !isStopRequested()) {
+        telemetry.addData("encoders: ","left(%d), right(%d)", left.getCurrentPosition(), right.getCurrentPosition());
+        double firstLeft = left.getCurrentPosition();
+        double firstRight = right.getCurrentPosition();
+        telemetry.update();
             drive.followTrajectory(trajectoryForward);
-            drive.followTrajectory(trajectoryBackward);
-        }
+            telemetry.addData("encoders: ","left(%d), right(%d), leftDiff(%2f), rightDiff(%2f)", left.getCurrentPosition(), right.getCurrentPosition(), left.getCurrentPosition() - firstLeft, right.getCurrentPosition() - firstRight);
+            telemetry.update();
+        //    drive.followTrajectory(trajectoryBackward);
+        //}
     }
 }
