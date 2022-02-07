@@ -87,9 +87,14 @@ public class DriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
 
      */
-    public static double MAX_VEL = 52.48291908330528;
-    public static double MAX_ACCEL = 52.48291908330528;
-    public static double MAX_ANG_VEL = 7.224191332669683;//Math.toRadians(250.58748);
+//    public static double MAX_VEL = 52.48291908330528;
+//    public static double MAX_ACCEL = 52.48291908330528;
+//    public static double MAX_ANG_VEL = 7.224191332669683;//Math.toRadians(250.58748);
+//    public static double MAX_ANG_ACCEL = Math.toRadians(250.58748);
+
+    public static double MAX_VEL = 15.48291908330528;
+    public static double MAX_ACCEL = 15.48291908330528;
+    public static double MAX_ANG_VEL = 7.224191332669683*0.5;//Math.toRadians(250.58748);
     public static double MAX_ANG_ACCEL = Math.toRadians(250.58748);
 
 
