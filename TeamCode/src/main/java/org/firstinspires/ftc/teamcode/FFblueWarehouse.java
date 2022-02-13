@@ -50,9 +50,9 @@ public class FFblueWarehouse extends AutoBot{
 
 
         TrajectorySequence strafe = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(5.5)
-                .forward(-30)
-                .turn(Math.toRadians(-90))
+                .strafeLeft(6)
+                .forward(-22)
+                .turn(Math.toRadians(-40))
                 .build();
         waitForStart();
 
@@ -60,14 +60,12 @@ public class FFblueWarehouse extends AutoBot{
 
         drive.followTrajectorySequence(strafe);
 
-        sleep(250);
-        armup1(robot);
-        sleep(250);
+        armdown(robot, 2400);
 
         TrajectorySequence move = drive.trajectorySequenceBuilder(startPose)
-                .turn(Math.toRadians(90))//counter clockwise
-                .back(-25)
-                .strafeRight(11.5)
+                .turn(Math.toRadians(40))//counter clockwise
+                .turn(Math.toRadians(-80))
+                .strafeLeft(100)
                 .forward(-50)
                 .build();
 
